@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:507534377668:android:5234debe89925d35d97f91",
         "android_client_info": {
-          "package_name": "com.snowmanlabs.postplusapp"
+          "package_name": "com.example.postplus_app"
         }
       },
       "oauth_client": [

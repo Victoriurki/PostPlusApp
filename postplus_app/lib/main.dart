@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_app.dart';
 
-Future main() async {  
+void main() async {  
   WidgetsFlutterBinding.ensureInitialized();  
   await Firebase.initializeApp();
   runApp(const MyApp());
