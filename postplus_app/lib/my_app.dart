@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:postplus_app/pages/home_page.dart';
+import 'package:postplus_app/my_home_page/my_home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

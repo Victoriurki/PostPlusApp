@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "507534377668",
+    "project_id": "postplusapp-62650",
+    "storage_bucket": "postplusapp-62650.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507534377668:android:5234debe89925d35d97f91",
+        "android_client_info": {
+          "package_name": "com.snowmanlabs.postplusapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507534377668-i47b4adncfhsgsifcglo9mh6vuf6inja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snowmanlabs.postplusapp",
+            "certificate_hash": "8ed45bedaadef79a545fc421fb464f9b023d089d"
+          }
+        },
+        {
+          "client_id": "507534377668-7o4r70shut1u5bl3honnb2psc3r0ik8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa-yEh-f9NLL6Ma4twJhGaEu-TgZW-Zl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507534377668-7o4r70shut1u5bl3honnb2psc3r0ik8o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
