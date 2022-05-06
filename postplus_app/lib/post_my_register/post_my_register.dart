@@ -1,6 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:postplus_app/my_register_page/my_register_page.dart';
-
 import '../user_model/user_model.dart';
 
 Future<UserModel> postMyRegister(UserModel user) async {
@@ -11,7 +10,19 @@ Future<UserModel> postMyRegister(UserModel user) async {
   }
   final parsedResponse = UserModel.fromJson(response.data);
   final userModel = parsedResponse;
-  print(userModel.sId);
-  return userModel;
   
+  FirebaseFirestore.instance
+      .collection("users")
+      .doc(userModel.sId)
+      .set(
+    {
+      "id": userModel.sId,
+      "email": userModel.email,
+      "firstname": userModel.firstName,
+      "lastname": userModel.lastName,
+      "biography": "",
+      "tolken": userModel.token,
+    },
+  );
+  return userModel;
 }

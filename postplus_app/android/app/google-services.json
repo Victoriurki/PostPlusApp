@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:507534377668:android:5234debe89925d35d97f91",
         "android_client_info": {
-          "package_name": "com.example.postplus_app"
+          "package_name": "com.snowmanlabs.postplusapp"
         }
       },
       "oauth_client": [
@@ -19,6 +19,22 @@
           "android_info": {
             "package_name": "com.snowmanlabs.postplusapp",
             "certificate_hash": "8ed45bedaadef79a545fc421fb464f9b023d089d"
+          }
+        },
+        {
+          "client_id": "507534377668-kohsimdublhffnesncj6gkdlj18g8v2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snowmanlabs.postplusapp",
+            "certificate_hash": "425489aa449ed268e65a7e4ae8aa72438508d1bb"
+          }
+        },
+        {
+          "client_id": "507534377668-s3f7r4abnjjjembjdbp89mlau04j2hu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snowmanlabs.postplusapp",
+            "certificate_hash": "454ae08dd586ac14e71bebd0af18447d187293de"
           }
         },
         {
