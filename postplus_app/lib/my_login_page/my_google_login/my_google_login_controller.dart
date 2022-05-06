@@ -28,7 +28,9 @@ class GoogleSignInController {
           .set(
         {
           "id": authenticatedUser.user!.uid,
-          "email": authenticatedUser.user!.email
+          "email": authenticatedUser.user!.email,
+          "firstname" : authenticatedUser.user!.displayName!.split(' ')[0],
+          "lastname" : authenticatedUser.user!.displayName!.split(' ')[1],
         },
       );
       return true;
