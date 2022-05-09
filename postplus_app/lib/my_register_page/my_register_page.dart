@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_login_page.dart';
 import 'package:postplus_app/post_my_register/post_my_register.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../my_widgets/my_elevated_button_widget.dart';
 import '../my_widgets/my_textfield_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyRegisterPage extends StatefulWidget {
   const MyRegisterPage({Key? key, required this.title}) : super(key: key);
@@ -150,8 +148,6 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                             builder: (context) => const MyLoginPage(title: '',),
                           ),
                         );
-                        print(
-                            '$firstName $lastName $email $password $confirmPassword');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           passError = true;

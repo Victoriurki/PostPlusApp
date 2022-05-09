@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_google_login/my_google_login_controller.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginButton extends StatelessWidget {
@@ -24,7 +23,7 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: () async {
           final result = await GoogleSignInController().googleLogin();
-          if (result == false) {
+          if (result == "") {
             showDialog(
                 context: context,
                 builder: (context) {
@@ -33,12 +32,11 @@ class LoginButton extends StatelessWidget {
                   );
                 });
           }
-          if (result == true) {
-            
-            Navigator.push(
+          if (result != "") {
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const MyHomePage(),
+                builder: (context) => MyHomePage(currentUserId: result),
               ),
             );
           }
