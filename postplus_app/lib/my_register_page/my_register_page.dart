@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:postplus_app/my_home_page/my_home_page.dart';
+import 'package:postplus_app/my_login_page/my_login_page.dart';
 import 'package:postplus_app/post_my_register/post_my_register.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../my_widgets/my_elevated_button_widget.dart';
@@ -140,6 +142,12 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                             lastName: lastName,
                             email: email,
                             password: password,
+                          ),
+                        );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyLoginPage(title: '',),
                           ),
                         );
                         print(

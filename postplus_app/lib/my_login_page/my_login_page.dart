@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_google_login/my_google_login.dart';
 import 'package:postplus_app/my_register_page/my_register_page.dart';
 import 'package:postplus_app/my_widgets/my_elevated_button_widget.dart';
 import 'package:postplus_app/my_widgets/my_text_button_widget.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
+import 'package:postplus_app/post_my_login/post_my_login.dart';
+import 'package:postplus_app/user_model/user_model.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key, required this.title}) : super(key: key);
@@ -55,7 +58,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 title: "Register"),
             MyElevatedButtonWidget(
                 action: () {
+                   Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyHomePage(),
+                          ),
+                        );
                   print('$email $password');
+                  postMyLogin(UserModel(email: email, password: password));
                 },
                 title: 'Sing in'),
             const LoginButton()
