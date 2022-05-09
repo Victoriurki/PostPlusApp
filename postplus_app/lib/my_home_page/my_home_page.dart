@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_themes/my_color_theme.dart';
 
+import '../my_upload_image_page/my_upload_image_page.dart';
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+
+  final String currentUserId;
+
+  const MyHomePage({Key? key, required this.currentUserId}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

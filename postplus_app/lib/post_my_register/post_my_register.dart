@@ -18,8 +18,8 @@ Future<UserModel> postMyRegister(UserModel user) async {
     {
       "id": userModel.sId,
       "email": userModel.email,
-      "firstname": userModel.firstName,
-      "lastname": userModel.lastName,     
+      "first_name": userModel.firstName,
+      "last_name": userModel.lastName,     
       "token": userModel.token,
     },
   );

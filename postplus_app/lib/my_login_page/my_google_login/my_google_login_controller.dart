@@ -9,11 +9,11 @@ class GoogleSignInController {
 
   GoogleSignInAccount get user => _user!;
 
-  Future<bool> googleLogin() async {
+  Future<String> googleLogin() async {
     try {
       final googleUser = await googleSignIn.signIn();
 
-      if (googleUser == null) return false;
+      if (googleUser == null) return "";
 
       _user = googleUser;
 
@@ -33,9 +33,9 @@ class GoogleSignInController {
           "lastname" : authenticatedUser.user!.displayName!.split(' ')[1],
         },
       );
-      return true;
+      return authenticatedUser.user!.uid;
     } catch (e) {
-      return false;
+      return "";
     }
   }
 
