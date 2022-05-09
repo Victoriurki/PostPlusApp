@@ -24,7 +24,6 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: () async {
           final result = await GoogleSignInController().googleLogin();
-
           if (result == false) {
             showDialog(
                 context: context,
@@ -35,6 +34,7 @@ class LoginButton extends StatelessWidget {
                 });
           }
           if (result == true) {
+            
             Navigator.push(
               context,
               MaterialPageRoute(
