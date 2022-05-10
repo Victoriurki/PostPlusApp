@@ -79,6 +79,7 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                     image!,
                     width: 320,
                     height: 320,
+                    fit: BoxFit.cover,
                   )
                 : const FlutterLogo(size: 320),
             IconButton(
