@@ -27,6 +27,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       primary: true,
       appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.transparent,
         leading: IconButton(
             icon: const Icon(Icons.camera_alt, color: Colors.black),
             onPressed: () {
@@ -40,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
         actions: const [
           Icon(
-            Icons.chat,
+            Icons.chat_bubble_outline_rounded,
             color: Colors.black,
           ),
           Icon(
