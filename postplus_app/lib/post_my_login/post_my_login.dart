@@ -15,11 +15,10 @@ Future<UserModel> postMyLogin(UserModel user) async {
     {
       "id": userModel.sId,
       "email": userModel.email,
-      "firstname": userModel.firstName,
-      "lastname": userModel.lastName,
+      "first_name": userModel.firstName,
+      "last_name": userModel.lastName,
       "token": userModel.token, //this updates the token in firebase
     },
   );
-  print("${userModel.token}");
   return userModel;
 }

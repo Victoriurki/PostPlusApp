@@ -57,15 +57,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 },
                 title: "Register"),
             MyElevatedButtonWidget(
-                action: () {
-                   Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyHomePage(),
-                          ),
-                        );
-                  print('$email $password');
-                  postMyLogin(UserModel(email: email, password: password));
+                action: () async {
+                  final currentUser = await postMyLogin(
+                      UserModel(email: email, password: password));
+                  final currentUserId = currentUser.sId;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          MyHomePage(currentUserId: currentUserId!),
+                    ),
+                  );
                 },
                 title: 'Sing in'),
             const LoginButton()
