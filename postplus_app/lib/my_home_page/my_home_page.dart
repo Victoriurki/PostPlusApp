@@ -12,15 +12,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       primary: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: const Icon(
           Icons.camera_alt,
           color: Colors.black,
         ),
         actions: const [
           Icon(
-            Icons.chat,
+            Icons.chat_bubble_outline_rounded,
             color: Colors.black,
           ),
           Icon(
