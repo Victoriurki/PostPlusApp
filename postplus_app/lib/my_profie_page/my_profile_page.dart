@@ -44,7 +44,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 ),
               ],
             ),
-            FutureBuilder<List<String>>(
+            FutureBuilder<List<dynamic>>(
               initialData: [],
               future: getPostUrlList(widget.currentUserId),
               builder: (context, snapshot) {
@@ -62,6 +62,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 if (!snapshot.hasData) {
                   return const Text("error");
                 }
+
                 /// carregando
                 if (snapshot.data!.isEmpty && !snapshot.hasError) {
                   return Text(
@@ -69,15 +70,24 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
                 }
+
                 /// caminho feliz
                 if (snapshot.hasData && !snapshot.hasError) {
-                  return ListView.builder(
+                  return GridView.builder(
+                      itemCount: snapshot.data!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                      ),
                       itemBuilder: (context, index) {
-                        return Text(
+                        return Image.network(
                           snapshot.data![index],
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
                         );
                       });
                 } else {
