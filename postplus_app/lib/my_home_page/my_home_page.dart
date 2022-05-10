@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         child: ElevatedButton.icon(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => MyProfilePage(currentId: widget.currentUserId)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => MyProfilePage(currentUserId: widget.currentUserId)));
             },
             icon: const Icon(Icons.person),
             label: const Text("My Profile")),
