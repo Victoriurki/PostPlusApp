@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_themes/my_color_theme.dart';
-import 'package:postplus_app/my_upload_image_page/my_upload_image_page.dart';
-
-import '../my_profie_page/my_profile_page.dart';
+import '../my_app_bar/my_app_bar.dart';
 
 class MyHomePage extends StatefulWidget {
   final String currentUserId;
@@ -17,40 +15,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => MyProfilePage(currentUserId: widget.currentUserId)));
-            },
-            icon: const Icon(Icons.person),
-            label: const Text("My Profile")),
-      ),
       primary: true,
-      appBar: AppBar(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-            icon: const Icon(Icons.camera_alt, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      MyUploadImagePage(currentUserId: widget.currentUserId),
-                ),
-              );
-            }),
-        actions: const [
-          Icon(
-            Icons.chat_bubble_outline_rounded,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ],
-        title: const Text(""),
+      extendBodyBehindAppBar: true,
+      appBar: MyAppBar(
+        currentUserId: widget.currentUserId,
       ),
       body: ListView(
         children: [

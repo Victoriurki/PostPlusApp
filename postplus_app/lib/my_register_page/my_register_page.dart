@@ -40,9 +40,6 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
