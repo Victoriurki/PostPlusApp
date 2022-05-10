@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_login_page.dart';
 
 class MyApp extends StatelessWidget {

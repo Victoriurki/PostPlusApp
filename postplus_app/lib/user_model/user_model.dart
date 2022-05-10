@@ -7,6 +7,10 @@ class UserModel {
   String? password;
   String? sId;
   String? token;
+  String? profilePicture;
+  List<dynamic>? following;
+  List<dynamic>? followers;
+  List<dynamic>? pictures;
 
   UserModel({
     this.firstName,
@@ -15,6 +19,10 @@ class UserModel {
     this.password,
     this.sId,
     this.token,
+    this.followers,
+    this.following,
+    this.pictures,
+    this.profilePicture,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {

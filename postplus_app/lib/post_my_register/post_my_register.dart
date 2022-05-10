@@ -21,8 +21,6 @@ Future<UserModel> postMyRegister(UserModel user) async {
       "first_name": userModel.firstName,
       "last_name": userModel.lastName,     
       "token": userModel.token,
-      "followers": [],
-      "following": [],
     },
   );
   return userModel;
