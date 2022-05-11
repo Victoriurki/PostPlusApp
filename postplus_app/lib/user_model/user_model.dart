@@ -9,9 +9,9 @@ class UserModel {
   String? token;
   String? profilePicture;
   String? biography;
+  String? username;
   List<dynamic>? following;
   List<dynamic>? followers;
-  List<dynamic>? pictures;
 
   UserModel({
     this.firstName,
@@ -22,18 +22,23 @@ class UserModel {
     this.token,
     this.followers,
     this.following,
-    this.pictures,
     this.profilePicture,
     this.biography,
+    this.username,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    email = json['email'];
-    password = json['password'];
-    sId = json['_id'];
-    token = json['token'];
+    firstName = json['first_name'] ?? "";
+    lastName = json['last_name'] ?? "";
+    email = json['email'] ?? "";
+    password = json['password'] ?? "";
+    sId = json['_id'] ?? "";
+    token = json['token'] ?? "";
+    profilePicture = json['profile_picture'] ?? "";
+    biography = json['biography'] ?? "";
+    username = json['username'] ?? "";
+    followers = json['followers'] ?? [];
+    following = json['following'] ?? [];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,7 +48,11 @@ class UserModel {
     data['email'] = this.email;
     data['password'] = this.password;
     data['_id'] = this.sId;
-    data['token'] = this.token;
+    data['profile_picture'] = this.token;
+    data['biography'] = this.biography;
+    data['followers'] = this.followers;
+    data['following'] = this.following;
+    data['username'] = this.username;
     return data;
   }
 }
