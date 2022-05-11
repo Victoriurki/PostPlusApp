@@ -8,6 +8,7 @@ class UserModel {
   String? sId;
   String? token;
   String? profilePicture;
+  String? biography;
   List<dynamic>? following;
   List<dynamic>? followers;
   List<dynamic>? pictures;
@@ -23,6 +24,7 @@ class UserModel {
     this.following,
     this.pictures,
     this.profilePicture,
+    this.biography,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
