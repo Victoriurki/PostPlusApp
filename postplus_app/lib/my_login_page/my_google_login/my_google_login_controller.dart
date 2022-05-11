@@ -21,18 +21,32 @@ class GoogleSignInController {
       final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
-      final authenticatedUser =  await FirebaseAuth.instance.signInWithCredential(credential);
-      FirebaseFirestore.instance
+      final authenticatedUser =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final currentUser = FirebaseFirestore.instance
           .collection("users")
           .doc(authenticatedUser.user!.uid)
-          .set(
-        {
-          "id": authenticatedUser.user!.uid,
-          "email": authenticatedUser.user!.email,
-          "firstname" : authenticatedUser.user!.displayName!.split(' ')[0],
-          "lastname" : authenticatedUser.user!.displayName!.split(' ')[1],
-        },
-      );
+          .get();
+
+      (currentUser == null)
+          ? FirebaseFirestore.instance
+              .collection("users")
+              .doc(authenticatedUser.user!.uid)
+              .set(
+              {
+                "id": authenticatedUser.user!.uid,
+                "email": authenticatedUser.user!.email,
+                "firstname": authenticatedUser.user!.displayName!.split(' ')[0],
+                "lastname": authenticatedUser.user!.displayName!.split(' ')[1],
+                "token": "",
+                "profile_picture": "",
+                "pictures": [],
+                "followers": [],
+                "following": [],
+              },
+            )
+          : null;
       return authenticatedUser.user!.uid;
     } catch (e) {
       return "";
