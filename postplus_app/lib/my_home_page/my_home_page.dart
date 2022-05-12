@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             FutureBuilder<List<PostModel>> (
-              future: getUserPosts(widget.currentUserId),
+              future: getUserPosts(widget.currentUserModel.sId!),
               builder: (context, snapshot) {
                 return ListView.builder(
                   shrinkWrap: true,
