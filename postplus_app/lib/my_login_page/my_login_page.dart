@@ -9,9 +9,7 @@ import 'package:postplus_app/post_my_login/post_my_login.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 
 class MyLoginPage extends StatefulWidget {
-  const MyLoginPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyLoginPage({Key? key}) : super(key: key);
 
   @override
   State<MyLoginPage> createState() => _MyLoginPageState();

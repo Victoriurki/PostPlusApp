@@ -20,22 +20,25 @@ class MyPostPage extends StatelessWidget {
       right: true,
       minimum: const EdgeInsets.fromLTRB(8, 16, 8, 0),
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(url),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(url),
+                  ),
                 ),
+                width: 300,
+                height: 300,
               ),
-              width: 40,
-              height: 40,
-            ),
-            const SizedBox(height: 8),
-            Text(description),
-          ],
+              const SizedBox(height: 8),
+              Text(description),
+            ],
+          ),
         ),
       ),
     );

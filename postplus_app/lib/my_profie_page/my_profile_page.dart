@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_post_page/my_post_page.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../get_current_user_info/get_current_user_info.dart';
 import '../get_user_post_data/get_user_post_data.dart';
@@ -227,8 +228,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       ),
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => ))
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => MyPostPage(
+                                    id: snapshot.data![index].id!,
+                                    url: snapshot.data![index].url!,
+                                    description:
+                                        snapshot.data![index].description!),
+                              ),
+                            );
                           },
                           child: Image.network(
                             snapshot.data![index].url!,

@@ -166,9 +166,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyLoginPage(
-                              title: '',
-                            ),
+                            builder: (context) => const MyLoginPage(),
                           ),
                         );
                       } on FirebaseAuthException catch (e) {
