@@ -24,29 +24,33 @@ class GoogleSignInController {
       final authenticatedUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final currentUser = FirebaseFirestore.instance
+      final userId = authenticatedUser.user!.uid;
+
+      final userDoc = await FirebaseFirestore.instance
           .collection("users")
-          .doc(authenticatedUser.user!.uid)
+          .doc(userId)
           .get();
 
-      (currentUser == null)
-          ? FirebaseFirestore.instance
-              .collection("users")
-              .doc(authenticatedUser.user!.uid)
-              .set(
-              {
-                "id": authenticatedUser.user!.uid,
-                "email": authenticatedUser.user!.email,
-                "firstname": authenticatedUser.user!.displayName!.split(' ')[0],
-                "lastname": authenticatedUser.user!.displayName!.split(' ')[1],
-                "token": "",
-                "profile_picture": "",
-                "pictures": [],
-                "followers": [],
-                "following": [],
-              },
-            )
-          : null;
+      final doesExists = userDoc.exists;
+
+      if (!doesExists) {
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(authenticatedUser.user!.uid)
+            .set({
+          "id": authenticatedUser.user!.uid,
+          "email": authenticatedUser.user!.email,
+          "firstname": authenticatedUser.user!.displayName!.split(' ')[0],
+          "lastname": authenticatedUser.user!.displayName!.split(' ')[1],
+          "token": "",
+          "profile_picture": "",
+          "biography": "",
+          "pictures": [],
+          "followers": [],
+          "following": [],
+        });
+      }
+
       return authenticatedUser.user!.uid;
     } catch (e) {
       return "";

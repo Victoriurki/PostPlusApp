@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
 
 class MyUploadImagePage extends StatefulWidget {
   final String currentUserId;
@@ -15,6 +16,7 @@ class MyUploadImagePage extends StatefulWidget {
 }
 
 class _MyUploadImagePageState extends State<MyUploadImagePage> {
+  String description = '';
   File? image;
   @override
   Widget build(BuildContext context) {
@@ -87,14 +89,22 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                 });
               },
             ),
+            MyTextFieldWidget(
+                obscureText: false,
+                label: "Description",
+                hint: "Type your description here!",
+                onChanged: (text) {
+                  description = text;
+                }),
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () async {
                 if (image == null) return;
                 try {
                   String ref =
-                      "images/${widget.currentUserId}/img-${DateTime.now().toString()}.jpg";
+                      "images/${widget.currentUserId}/${DateTime.now().toString()}.jpg";
                   await FirebaseStorage.instance.ref(ref).putFile(image!);
+                  final datetime = DateTime.now().toString();
                   final imageUrl = await FirebaseStorage.instance
                       .ref()
                       .child(ref)
@@ -102,9 +112,14 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                   await FirebaseFirestore.instance
                       .collection("users")
                       .doc(widget.currentUserId)
-                      .update(
+                      .collection("postdata")
+                      .doc(datetime)
+                      .set(
                     {
-                      "pictures": FieldValue.arrayUnion([imageUrl]),
+                      "url": imageUrl,
+                      "id": datetime,
+                      "description": description,
+                      "likes": [],
                     },
                   );
                   Navigator.pop(context);

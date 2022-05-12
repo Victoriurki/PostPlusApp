@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_post_page/my_post_page.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../get_current_user_info/get_current_user_info.dart';
+import '../get_user_post_data/get_user_post_data.dart';
+import '../post_model/post_model.dart';
 
 class MyProfilePage extends StatefulWidget {
   final String currentUserId;
@@ -48,14 +51,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
                   return const Text("error");
                 }
 
-                /// carregando
-                // if (snapshot.data!.email!.isEmpty && !snapshot.hasError) {
-                //   return Text(
-                //     "Erro123",
-                //     style: Theme.of(context).textTheme.headlineMedium,
-                //   );
-                // }
-
                 /// caminho feliz
                 if (snapshot.hasData &&
                     !snapshot.hasError &&
@@ -88,6 +83,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                          "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
                       widget.selectedUserId == widget.currentUserId
                           ? Column(children: [
                               TextButton(
@@ -184,35 +184,78 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                 }
                               },
                             ),
-                      GridView.builder(
-                        itemCount: snapshot.data!.pictures!.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Image.network(
-                            snapshot.data!.pictures![index],
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
                     ],
                   );
                 } else {
-                  // sei la quye que deu
+                  // sei la o que deu
                   return CircularProgressIndicator(
                     color: Theme.of(context).primaryColor,
                   );
                 }
               },
             ),
+            FutureBuilder<List<PostModel>>(
+              future: getUserPosts(widget.selectedUserId),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  const Text("Something went wrong");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  );
+                }
+                if (!snapshot.hasData) {
+                  return const Text("Something went wrong");
+                }
+                if (snapshot.data!.isEmpty) {
+                  return const Text("This user didn't post yet D:");
+                }
+                if (snapshot.hasData &&
+                    !snapshot.hasError &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return GridView.builder(
+                      itemCount: snapshot.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                      ),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => MyPostPage(
+                                    id: snapshot.data![index].id!,
+                                    url: snapshot.data![index].url!,
+                                    description:
+                                        snapshot.data![index].description!),
+                              ),
+                            );
+                          },
+                          child: Image.network(
+                            snapshot.data![index].url!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      });
+                } else {
+                  // sei la o que deu
+                  return CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  );
+                }
+              },
+            )
           ],
         ),
       ),

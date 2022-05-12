@@ -26,16 +26,19 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
   bool confirmPasswordError = false;
   bool firstNameError = false;
   bool lastNameError = false;
+  bool usernameError = false;
   String passErrorText = "Senha Incorreta!";
   String emailErrorText = "";
   String confirmPasswordErrorText = "Senhas não conferem!";
   String firstNameErrorText = "Campo obrigatório!";
   String lastNameErrorText = "Campo obrigatório!";
+  String usernameErrorText = "Campo obrigatório!";
   String email = '';
   String password = '';
   String confirmPassword = '';
   String firstName = '';
   String lastName = '';
+  String username = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 label: 'Email',
                 onChanged: (text) {
                   email = text;
+                  emailError = false;
                 },
                 errorText: emailErrorText,
                 showErrorText: emailError,
@@ -60,6 +64,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 obscureText: true,
                 onChanged: (text) {
                   password = text;
+                  passError = false;
                 },
                 errorText: passErrorText,
                 showErrorText: passError,
@@ -70,6 +75,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 obscureText: true,
                 onChanged: (text) {
                   confirmPassword = text;
+                  confirmPasswordError = false;
                 },
                 errorText: confirmPasswordErrorText,
                 showErrorText: confirmPasswordError,
@@ -80,6 +86,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 obscureText: false,
                 onChanged: (text) {
                   firstName = text;
+                  firstNameError = false;
                 },
                 errorText: firstNameErrorText,
                 showErrorText: firstNameError,
@@ -90,12 +97,24 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 obscureText: false,
                 onChanged: (text) {
                   lastName = text;
+                  lastNameError = false;
                 },
                 errorText: lastNameErrorText,
                 showErrorText: lastNameError,
               ),
+              MyTextFieldWidget(
+                hint: 'Please type your @username',
+                label: '@username',
+                obscureText: false,
+                onChanged: (text) {
+                  username = text;
+                  usernameError = false;
+                },
+                errorText: usernameErrorText,
+                showErrorText: usernameError,
+              ),
               MyElevatedButtonWidget(
-                title: 'Sing in',
+                title: 'Sign in',
                 action: () async {
                   bool isValid = _emailValidator(email);
                   if (email.isEmpty || email == "") {
@@ -123,13 +142,17 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                     lastNameError = true;
                     setState(() {});
                   }
+                  if (username.isEmpty || username == "") {
+                    usernameError = true;
+                    setState(() {});
+                  }
                   if (password == confirmPassword) {
                     if (isValid == true &&
                         emailError == false &&
                         passError == false &&
                         confirmPasswordError == false &&
                         firstNameError == false &&
-                        lastNameError == false) {
+                        lastNameError == false && usernameError == false) {
                       try {
                         postMyRegister(
                           UserModel(
@@ -137,12 +160,13 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                             lastName: lastName,
                             email: email,
                             password: password,
+                            username: username,
                           ),
                         );
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyLoginPage(title: '',),
+                            builder: (context) => const MyLoginPage(),
                           ),
                         );
                       } on FirebaseAuthException catch (e) {

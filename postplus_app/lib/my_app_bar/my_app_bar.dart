@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_search_page/my_search_page.dart';
 import '../my_profie_page/my_profile_page.dart';
 import '../my_upload_image_page/my_upload_image_page.dart';
 
@@ -33,15 +34,16 @@ class _MyAppBarState extends State<MyAppBar> {
       actions: [
         IconButton(
           icon: const Icon(
-            Icons.chat_bubble_outline_rounded,
+            Icons.search_outlined,
             color: Colors.black,
           ),
           onPressed: () {
-                        Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) =>
-                    MyProfilePage(currentUserId: widget.currentUserId, selectedUserId: "62791165163bb942a4f37a60",),
+                builder: (_) => MySearchPage(
+                  currentUserId: widget.currentUserId,
+                ),
               ),
             );
           },
@@ -55,8 +57,10 @@ class _MyAppBarState extends State<MyAppBar> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) =>
-                    MyProfilePage(currentUserId: widget.currentUserId, selectedUserId: widget.currentUserId,),
+                builder: (_) => MyProfilePage(
+                  currentUserId: widget.currentUserId,
+                  selectedUserId: widget.currentUserId,
+                ),
               ),
             );
           },
