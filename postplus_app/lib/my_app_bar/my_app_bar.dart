@@ -43,7 +43,7 @@ class _MyAppBarState extends State<MyAppBar> {
               context,
               MaterialPageRoute(
                 builder: (_) => MySearchPage(
-                  currentUserId: widget.currentUserModel.sId!,
+                  currentUserModel: widget.currentUserModel,
                 ),
               ),
             );
@@ -59,7 +59,7 @@ class _MyAppBarState extends State<MyAppBar> {
               context,
               MaterialPageRoute(
                 builder: (_) => MyProfilePage(
-                  currentUserId: widget.currentUserModel.sId!,
+                  currentUserModel: widget.currentUserModel,
                   selectedUserId: widget.currentUserModel.sId!,
                 ),
               ),

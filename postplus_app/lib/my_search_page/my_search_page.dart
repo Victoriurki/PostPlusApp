@@ -1,14 +1,13 @@
 import 'package:firestore_search/firestore_search.dart';
 import 'package:flutter/material.dart';
-import 'package:postplus_app/my_profie_page/my_profile_page.dart';
 import 'package:postplus_app/my_widgets/my_user_card.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../data_model/data_model.dart';
 
 class MySearchPage extends StatefulWidget {
-  final String currentUserId;
+  final UserModel currentUserModel;
 
-  const MySearchPage({Key? key, required this.currentUserId}) : super(key: key);
+  const MySearchPage({Key? key, required this.currentUserModel}) : super(key: key);
 
   @override
   State<MySearchPage> createState() => _MySearchPageState();
@@ -43,7 +42,7 @@ class _MySearchPageState extends State<MySearchPage> {
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: MyUserCard(
-                    currentUserId: widget.currentUserId,
+                    currentUserModel: widget.currentUserModel,
                     selectedUserModel: UserModel(
                       username: data.username,
                       firstName: data.firstName,

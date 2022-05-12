@@ -4,11 +4,11 @@ import '../user_model/user_model.dart';
 
 class MyUserCard extends StatelessWidget {
   final UserModel selectedUserModel;
-  final String currentUserId;
+  final UserModel currentUserModel;
 
   const MyUserCard(
       {Key? key,
-      required this.currentUserId,
+      required this.currentUserModel,
       required this.selectedUserModel,})
       : super(key: key);
 
@@ -20,7 +20,7 @@ class MyUserCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) => MyProfilePage(
-              currentUserId: currentUserId,
+              currentUserModel: currentUserModel,
               selectedUserId: selectedUserModel.sId!,
             ),
           ),
