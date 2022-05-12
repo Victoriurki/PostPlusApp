@@ -1,6 +1,8 @@
 import 'package:firestore_search/firestore_search.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_profie_page/my_profile_page.dart';
+import 'package:postplus_app/my_widgets/my_user_card.dart';
+import 'package:postplus_app/user_model/user_model.dart';
 import '../data_model/data_model.dart';
 
 class MySearchPage extends StatefulWidget {
@@ -40,29 +42,14 @@ class _MySearchPageState extends State<MySearchPage> {
                 final DataModel data = dataList[index];
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MyProfilePage(
-                              currentUserId: widget.currentUserId,
-                              selectedUserId: data.id!),
-                        ),
-                      );
-                    },
-                    title: Text("${(data.firstName)} ${(data.lastName)}"),
-                    subtitle: Text('@${data.username}'),
-                    leading: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(data.profilePicture!),
-                        ),
-                      ),
-                      width: 40,
-                      height: 40,
+                  child: MyUserCard(
+                    currentUserId: widget.currentUserId,
+                    selectedUserModel: UserModel(
+                      username: data.username,
+                      firstName: data.firstName,
+                      lastName: data.lastName,
+                      sId: data.id,
+                      profilePicture: data.profilePicture,
                     ),
                   ),
                 );

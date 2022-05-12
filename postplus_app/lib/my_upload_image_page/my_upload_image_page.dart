@@ -6,9 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
 
+import '../user_model/user_model.dart';
+
 class MyUploadImagePage extends StatefulWidget {
-  final String currentUserId;
-  const MyUploadImagePage({Key? key, required this.currentUserId})
+  final UserModel currentUserModel;
+  const MyUploadImagePage({Key? key, required this.currentUserModel})
       : super(key: key);
 
   @override
@@ -102,7 +104,7 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                 if (image == null) return;
                 try {
                   String ref =
-                      "images/${widget.currentUserId}/${DateTime.now().toString()}.jpg";
+                      "images/${widget.currentUserModel.sId}/${DateTime.now().toString()}.jpg";
                   await FirebaseStorage.instance.ref(ref).putFile(image!);
                   final datetime = DateTime.now().toString();
                   final imageUrl = await FirebaseStorage.instance
@@ -111,7 +113,7 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                       .getDownloadURL();
                   await FirebaseFirestore.instance
                       .collection("users")
-                      .doc(widget.currentUserId)
+                      .doc(widget.currentUserModel.sId)
                       .collection("postdata")
                       .doc(datetime)
                       .set(
@@ -120,6 +122,13 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                       "id": datetime,
                       "description": description,
                       "likes": [],
+                      "owner_data": {
+                        "first_name": widget.currentUserModel.firstName,
+                        "id": widget.currentUserModel.sId,
+                        "last_name": widget.currentUserModel.lastName,
+                        "profile_picture": widget.currentUserModel.profilePicture,
+                        "username": widget.currentUserModel.username,
+                      }
                     },
                   );
                   Navigator.pop(context);

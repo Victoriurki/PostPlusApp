@@ -11,7 +11,7 @@ Future<UserModel> postMyLogin(UserModel user) async {
   final parsedResponse = UserModel.fromJson(response.data);
   final userModel = parsedResponse;
 
-  FirebaseFirestore.instance.collection("users").doc(userModel.sId).update(
+  await FirebaseFirestore.instance.collection("users").doc(userModel.sId).update(
     {
       "id": userModel.sId,
       "email": userModel.email,

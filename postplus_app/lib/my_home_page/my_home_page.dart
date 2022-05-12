@@ -3,11 +3,12 @@ import 'package:postplus_app/get_user_post_data/get_user_post_data.dart';
 import 'package:postplus_app/my_themes/my_color_theme.dart';
 import 'package:postplus_app/post_model/post_model.dart';
 import '../my_app_bar/my_app_bar.dart';
+import '../user_model/user_model.dart';
 
 class MyHomePage extends StatefulWidget {
-  final String currentUserId;
+  final UserModel currentUserModel;
 
-  const MyHomePage({Key? key, required this.currentUserId}) : super(key: key);
+  const MyHomePage({Key? key, required this.currentUserModel}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -25,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
         primary: true,
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
-          currentUserId: widget.currentUserId,
+          currentUserModel: widget.currentUserModel,
         ),
         body: Column(
           
