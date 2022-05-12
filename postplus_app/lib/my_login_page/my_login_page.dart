@@ -55,12 +55,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 action: () async {
                   final currentUser = await postMyLogin(
                       UserModel(email: email, password: password));
-                  final currentUserId = currentUser.sId;
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          MyHomePage(currentUserId: currentUserId!),
+                          MyHomePage(currentUserModel: currentUser),
                     ),
                   );
                 },

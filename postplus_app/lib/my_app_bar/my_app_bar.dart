@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:postplus_app/my_search_page/my_search_page.dart';
 import '../my_profie_page/my_profile_page.dart';
 import '../my_upload_image_page/my_upload_image_page.dart';
+import '../user_model/user_model.dart';
 
 class MyAppBar extends StatefulWidget with PreferredSizeWidget {
-  const MyAppBar({Key? key, required this.currentUserId}) : super(key: key);
+  const MyAppBar({Key? key, required this.currentUserModel}) : super(key: key);
 
-  final String currentUserId;
+  final UserModel currentUserModel;
 
   @override
   State<MyAppBar> createState() => _MyAppBarState();
@@ -27,7 +28,7 @@ class _MyAppBarState extends State<MyAppBar> {
               context,
               MaterialPageRoute(
                 builder: (_) =>
-                    MyUploadImagePage(currentUserId: widget.currentUserId),
+                    MyUploadImagePage(currentUserModel: widget.currentUserModel,),
               ),
             );
           }),
@@ -42,7 +43,7 @@ class _MyAppBarState extends State<MyAppBar> {
               context,
               MaterialPageRoute(
                 builder: (_) => MySearchPage(
-                  currentUserId: widget.currentUserId,
+                  currentUserId: widget.currentUserModel.sId!,
                 ),
               ),
             );
@@ -58,8 +59,8 @@ class _MyAppBarState extends State<MyAppBar> {
               context,
               MaterialPageRoute(
                 builder: (_) => MyProfilePage(
-                  currentUserId: widget.currentUserId,
-                  selectedUserId: widget.currentUserId,
+                  currentUserId: widget.currentUserModel.sId!,
+                  selectedUserId: widget.currentUserModel.sId!,
                 ),
               ),
             );

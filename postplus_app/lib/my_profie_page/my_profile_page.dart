@@ -233,10 +233,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => MyPostPage(
-                                    id: snapshot.data![index].id!,
-                                    url: snapshot.data![index].url!,
-                                    description:
-                                        snapshot.data![index].description!),
+                                    currentUserId: widget.currentUserId,
+                                    selectedUserId: widget.selectedUserId,
+                                    postId: snapshot.data![index].id!),
                               ),
                             );
                           },
