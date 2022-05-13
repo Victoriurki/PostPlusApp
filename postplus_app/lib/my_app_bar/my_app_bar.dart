@@ -20,15 +20,17 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      flexibleSpace: Container(decoration: BoxDecoration(color: Colors.transparent)),
+      backgroundColor: Colors.transparent,
+      shadowColor: Colors.transparent,
       leading: IconButton(
           icon: const Icon(Icons.camera_alt, color: Colors.black),
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) =>
-                    MyUploadImagePage(currentUserModel: widget.currentUserModel,),
+                builder: (_) => MyUploadImagePage(
+                  currentUserModel: widget.currentUserModel,
+                ),
               ),
             );
           }),

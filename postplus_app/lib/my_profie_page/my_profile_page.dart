@@ -41,7 +41,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               builder: (context, snapshot) {
                 /// deu ruim
                 if (snapshot.hasError) {
-                  const Text("Something went wrong");
+                  const Text("Something went wrong 1");
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -157,7 +157,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   widget.currentUserModel.sId!),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
-                                  const Text("Something went wrong");
+                                  const Text("Something went wrong 2");
                                 }
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -168,7 +168,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   );
                                 }
                                 if (!snapshot.hasData) {
-                                  return const Text("error");
+                                  return const Text("error 2");
                                 }
                                 if (snapshot.hasData &&
                                     !snapshot.hasError &&
@@ -254,7 +254,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               future: getUserPosts(widget.selectedUserId),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  const Text("Something went wrong");
+                  const Text("Something went wrong 3");
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -264,7 +264,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                   );
                 }
                 if (!snapshot.hasData) {
-                  return const Text("Something went wrong");
+                  return const Text("Something went wrong 4");
                 }
                 if (snapshot.data!.isEmpty) {
                   return const Text("This user didn't post yet D:");

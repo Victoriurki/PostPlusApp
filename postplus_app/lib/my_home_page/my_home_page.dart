@@ -8,7 +8,8 @@ import '../user_model/user_model.dart';
 class MyHomePage extends StatefulWidget {
   final UserModel currentUserModel;
 
-  const MyHomePage({Key? key, required this.currentUserModel}) : super(key: key);
+  const MyHomePage({Key? key, required this.currentUserModel})
+      : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -18,23 +19,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
-      minimum: const EdgeInsets.fromLTRB(8, 16, 8, 0),
       child: Scaffold(
         primary: true,
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           currentUserModel: widget.currentUserModel,
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FutureBuilder<List<PostModel>> (
-              future: getUserPosts(widget.currentUserModel.sId!),
-              builder: (context, snapshot) {
-                return ListView.builder(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+                MyColorTheme.backgroundGradientColorA,
+                MyColorTheme.backgroundGradientColorB,
+              ],
+            ),
+          ),
+          child: FutureBuilder<List<PostModel>>(
+            future: getUserPosts(widget.currentUserModel.sId!),
+            builder: (context, snapshot) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {});
+                },
+                child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
@@ -74,10 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               ListTile(
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot.data![index].url!,
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data![index].ownerData!
+                                        .profilePicture!,
                                   ),
                                 ),
-                                title: const Text("snapshot.data!.first_name + last_name"),
+                                title: Text(
+                                  "${snapshot.data![index].ownerData!.firstName!} ${snapshot.data![index].ownerData!.lastName!}",
+                                ),
                               ),
                               Container(
                                 height: 216,
@@ -100,10 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     )
                                   ],
                                   borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
+                                  image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      'images/652483.jpg',
+                                    image: NetworkImage(
+                                      snapshot.data![index].url!,
                                     ),
                                   ),
                                 ),
@@ -114,10 +127,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     );
                   },
-                );
-              },
-            ),
-          ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
