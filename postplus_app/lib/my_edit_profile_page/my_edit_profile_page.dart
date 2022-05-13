@@ -13,11 +13,21 @@ class MyEditProfilePage extends StatefulWidget {
 }
 
 class _MyEditProfilePageState extends State<MyEditProfilePage> {
-  String? biography;
-  String? username;
   String usernameErrorText = "Required field";
-  bool biographyError = false;
-  bool usernameError = false;
+  TextEditingController _userNameController = TextEditingController();
+  TextEditingController _biographyController = TextEditingController();
+
+  @override
+  void initState() {
+    _userNameController.text = widget.currentUserModel.username!;
+    if (widget.currentUserModel.biography != null) {
+      _biographyController.text = widget.currentUserModel.biography!;
+    } else {
+      _biographyController.text = "";
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,76 +40,37 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
               label: "@username*",
               hint: "type a username here",
               onChanged: (text) {
-                username = text;
-                usernameError = false;
+                setState(() {});
               },
-              controller:
-                  TextEditingController(text: widget.currentUserModel.username),
+              controller: _userNameController,
               errorText: usernameErrorText,
-              showErrorText: usernameError,
+              showErrorText: _userNameController.text.isEmpty,
             ),
             MyTextFieldWidget(
-              obscureText: false,
-              label: "Biography",
-              hint: "Tell they more about you...",
-              onChanged: (text) {
-                biography = text;
-                biographyError = false;
-              },
-              controller: TextEditingController(
-                  text: widget.currentUserModel.biography),
-            ),
+                obscureText: false,
+                label: "Biography",
+                hint: "Tell they more about you...",
+                onChanged: (text) {},
+                controller: _biographyController),
             TextButton(
               onPressed: () {},
               child: const Text("Change password"),
             ),
             ElevatedButton(
-                child: const Text("Update"),
-                onPressed: () {
-                  if (username == null && biography == null) {
-                    Navigator.pop(context);
-                  }
-                  if (username == "" && biography == "") {
-                    usernameError = true;
-                    setState(() {});
-                  }
-                  if (username == "" && biography != null && biography != "") {
-                    usernameError = true;
-                    setState(() {});
-                  }
-                  if (username != null && username != "" && biography == "") {
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(widget.currentUserModel.sId!)
-                        .update({
-                      "biography": biography,
-                      "username": username,
-                    });
-                    Navigator.pop(context);
-                  }
-                  if (username == "" && biography == null) {
-                    usernameError = true;
-                    setState(() {});
-                  }
-                  if (username != null && username != "" && biography == null) {
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(widget.currentUserModel.sId!)
-                        .update({
-                      "username": username,
-                    });
-                    Navigator.pop(context);
-                  }
-                  if (username == null && biography != null) {
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(widget.currentUserModel.sId!)
-                        .update({
-                      "biography": biography,
-                    });
-                    Navigator.pop(context);
-                  }
-                })
+              child: const Text("Update"),
+              onPressed: _userNameController.text.isNotEmpty
+                  ? () {
+                      FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(widget.currentUserModel.sId!)
+                          .update({
+                        "biography": _biographyController.text,
+                        "username": _userNameController.text,
+                      });
+                      Navigator.pop(context);
+                    }
+                  : null,
+            )
           ],
         ),
       ),
