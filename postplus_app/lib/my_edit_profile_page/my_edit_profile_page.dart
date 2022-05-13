@@ -57,7 +57,7 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
                   setState(() {});
                 }
                 if (usernameError == false && biographyError == false) {
-                  FirebaseFirestore.instance.doc("users").collection(widget.currentUserModel.sId!).
+                  // FirebaseFirestore.instance.doc("users").collection(widget.currentUserModel.sId!).
                 }
               },
             )
