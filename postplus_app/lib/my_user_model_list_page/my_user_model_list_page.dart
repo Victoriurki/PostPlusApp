@@ -6,14 +6,14 @@ import '../user_model/user_model.dart';
 
 class MyUserModelListPage extends StatelessWidget {
   final String title;
-  final List<UserModel> userList;
-  final String currentUserId;
+  final List<dynamic> userList;
+  final UserModel currentUserModel;
 
   const MyUserModelListPage(
       {Key? key,
       required this.title,
       required this.userList,
-      required this.currentUserId})
+      required this.currentUserModel})
       : super(key: key);
 
   @override
@@ -21,21 +21,24 @@ class MyUserModelListPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: FutureBuilder<List<UserModel>>(
-          future: getUserModelList([]),
+          future: getUserModelList(userList),
           builder: (context, snapshot) {
             return Column(
-            children: [
-              Text(title),
-              ListView.builder(
-                itemCount: userList.length,
-                itemBuilder: (context, index) {
-                  return MyUserCard(
-                      currentUserId: currentUserId,
-                      selectedUserModel: userList[index]);
-                },
-              ),
-            ],
-            ); 
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return MyUserCard(
+                      currentUserModel: currentUserModel,
+                      selectedUserModel: snapshot.data![index],
+                    );
+                  },
+                ),
+              ],
+            );
           },
         ),
       ),

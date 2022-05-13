@@ -29,95 +29,94 @@ class _MyHomePageState extends State<MyHomePage> {
           currentUserModel: widget.currentUserModel,
         ),
         body: Column(
-          
           mainAxisSize: MainAxisSize.min,
           children: [
-            FutureBuilder<List<PostModel>> (
-              future: getUserPosts(widget.currentUserModel.sId!),
-              builder: (context, snapshot) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2,
-                                blurStyle: BlurStyle.outer,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                              colors: [
-                                MyColorTheme.backgroundGradientColorA,
-                                MyColorTheme.backgroundGradientColorB,
-                              ],
-                            ),
-                          ),
-                          height: 288,
-                          width: 360,
-                          margin: const EdgeInsets.only(
-                            right: 8,
-                            left: 8,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot.data![index].url!,
-                                  ),
-                                ),
-                                title: Text("snapshot.data!.first_name + last_name"),
-                              ),
-                              Container(
-                                height: 216,
-                                width: 344,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.bottomLeft,
-                                    end: Alignment.topRight,
-                                    colors: [
-                                      MyColorTheme.backgroundGradientColorA,
-                                      MyColorTheme.backgroundGradientColorB,
-                                    ],
-                                  ),
-                                  shape: BoxShape.rectangle,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      offset: Offset(2, 2),
-                                      blurRadius: 2,
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      'images/652483.jpg',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
+            // FutureBuilder<List<PostModel>> (
+            //   future: getUserPosts(widget.currentUserModel.sId!),
+            //   builder: (context, snapshot) {
+            //     return ListView.builder(
+            //       shrinkWrap: true,
+            //       itemCount: snapshot.data!.length,
+            //       itemBuilder: (context, index) {
+            //         return Column(
+            //           mainAxisSize: MainAxisSize.min,
+            //           children: [
+            //             const SizedBox(
+            //               height: 8,
+            //             ),
+            //             Container(
+            //               decoration: BoxDecoration(
+            //                 boxShadow: const [
+            //                   BoxShadow(
+            //                     color: Colors.grey,
+            //                     blurRadius: 2,
+            //                     blurStyle: BlurStyle.outer,
+            //                   ),
+            //                 ],
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 gradient: LinearGradient(
+            //                   begin: Alignment.bottomLeft,
+            //                   end: Alignment.topRight,
+            //                   colors: [
+            //                     MyColorTheme.backgroundGradientColorA,
+            //                     MyColorTheme.backgroundGradientColorB,
+            //                   ],
+            //                 ),
+            //               ),
+            //               height: 288,
+            //               width: 360,
+            //               margin: const EdgeInsets.only(
+            //                 right: 8,
+            //                 left: 8,
+            //               ),
+            //               child: Column(
+            //                 mainAxisSize: MainAxisSize.min,
+            //                 children: [
+            //                   ListTile(
+            //                     leading: CircleAvatar(
+            //                       backgroundImage: NetworkImage(snapshot.data![index].url!,
+            //                       ),
+            //                     ),
+            //                     title: const Text("snapshot.data!.first_name + last_name"),
+            //                   ),
+            //                   Container(
+            //                     height: 216,
+            //                     width: 344,
+            //                     decoration: BoxDecoration(
+            //                       gradient: LinearGradient(
+            //                         begin: Alignment.bottomLeft,
+            //                         end: Alignment.topRight,
+            //                         colors: [
+            //                           MyColorTheme.backgroundGradientColorA,
+            //                           MyColorTheme.backgroundGradientColorB,
+            //                         ],
+            //                       ),
+            //                       shape: BoxShape.rectangle,
+            //                       boxShadow: const [
+            //                         BoxShadow(
+            //                           color: Colors.grey,
+            //                           offset: Offset(2, 2),
+            //                           blurRadius: 2,
+            //                         )
+            //                       ],
+            //                       borderRadius: BorderRadius.circular(10),
+            //                       image: const DecorationImage(
+            //                         fit: BoxFit.cover,
+            //                         image: AssetImage(
+            //                           'images/652483.jpg',
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ],
+            //         );
+            //       },
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

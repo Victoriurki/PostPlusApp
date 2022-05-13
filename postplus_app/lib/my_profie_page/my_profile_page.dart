@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_post_page/my_post_page.dart';
+import 'package:postplus_app/my_update_profile_picture_page/my_update_profile_picture_page.dart';
+import 'package:postplus_app/my_user_model_list_page/my_user_model_list_page.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../get_current_user_info/get_current_user_info.dart';
 import '../get_user_post_data/get_user_post_data.dart';
 import '../post_model/post_model.dart';
 
 class MyProfilePage extends StatefulWidget {
-  final String currentUserId;
+  final UserModel currentUserModel;
   final String selectedUserId;
 
   const MyProfilePage(
-      {Key? key, required this.currentUserId, required this.selectedUserId})
+      {Key? key, required this.currentUserModel, required this.selectedUserId})
       : super(key: key);
 
   @override
@@ -61,11 +63,25 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Column(
-                            children: [
-                              Text("${snapshot.data!.followers!.length}"),
-                              const Text("followers")
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MyUserModelListPage(
+                                      title: "Followers",
+                                      userList: snapshot.data!.followers!,
+                                      currentUserModel:
+                                          widget.currentUserModel),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text("${snapshot.data!.followers!.length}"),
+                                const Text("followers")
+                              ],
+                            ),
                           ),
                           ClipOval(
                             child: Image.network(
@@ -75,11 +91,25 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          Column(
-                            children: [
-                              Text("${snapshot.data!.following!.length}"),
-                              const Text("following")
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MyUserModelListPage(
+                                      title: "Following",
+                                      userList: snapshot.data!.following!,
+                                      currentUserModel:
+                                          widget.currentUserModel),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text("${snapshot.data!.following!.length}"),
+                                const Text("following")
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -88,17 +118,31 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       ),
                       Text(
                           "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
-                      widget.selectedUserId == widget.currentUserId
+                      widget.selectedUserId == widget.currentUserModel.sId
                           ? Column(children: [
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            MyUpdateProfilePicturePage(
+                                                currentUserModel:
+                                                    widget.currentUserModel),
+                                      ),
+                                    ).then((value) {
+                                      setState(() {
+                                      });
+                                    });
+                                  },
                                   child: const Text("Edit image")),
                               ElevatedButton(
                                   onPressed: () {},
                                   child: const Text("Edit profile")),
                             ])
                           : FutureBuilder<UserModel>(
-                              future: getCurrentUserModel(widget.currentUserId),
+                              future: getCurrentUserModel(
+                                  widget.currentUserModel.sId!),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
                                   const Text("Something went wrong");
@@ -118,14 +162,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                     !snapshot.hasError &&
                                     snapshot.connectionState ==
                                         ConnectionState.done) {
-                                  if (snapshot.data!.following!
+                                  if (snapshot.data!.following
                                       .toString()
                                       .contains(widget.selectedUserId)) {
                                     return ElevatedButton(
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection("users")
-                                            .doc(widget.currentUserId)
+                                            .doc(widget.currentUserModel.sId)
                                             .update(
                                           {
                                             "following": FieldValue.arrayRemove(
@@ -139,7 +183,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                             .update(
                                           {
                                             "followers": FieldValue.arrayRemove(
-                                              [widget.currentUserId],
+                                              [widget.currentUserModel.sId],
                                             )
                                           },
                                         );
@@ -152,7 +196,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                         onPressed: () {
                                           FirebaseFirestore.instance
                                               .collection("users")
-                                              .doc(widget.currentUserId)
+                                              .doc(widget.currentUserModel.sId!)
                                               .update(
                                             {
                                               "following":
@@ -168,7 +212,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                             {
                                               "followers":
                                                   FieldValue.arrayUnion(
-                                                [widget.currentUserId],
+                                                [widget.currentUserModel.sId],
                                               )
                                             },
                                           );
@@ -233,7 +277,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => MyPostPage(
-                                    currentUserId: widget.currentUserId,
+                                    currentUserModel: widget.currentUserModel,
                                     selectedUserId: widget.selectedUserId,
                                     postId: snapshot.data![index].id!),
                               ),

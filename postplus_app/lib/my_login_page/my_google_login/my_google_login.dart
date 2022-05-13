@@ -3,7 +3,6 @@ import 'package:postplus_app/get_current_user_info/get_current_user_info.dart';
 import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_google_login/my_google_login_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:postplus_app/user_model/user_model.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({Key? key}) : super(key: key);
