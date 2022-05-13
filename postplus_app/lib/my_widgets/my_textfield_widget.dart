@@ -8,7 +8,8 @@ class MyTextFieldWidget extends StatefulWidget {
       required this.hint,
       required this.onChanged,
       this.errorText = "",
-      this.showErrorText = false})
+      this.showErrorText = false,
+      this.controller})
       : super(key: key);
 
   final String label;
@@ -17,6 +18,7 @@ class MyTextFieldWidget extends StatefulWidget {
   final bool obscureText;
   final bool showErrorText;
   final Function(String)? onChanged;
+  final TextEditingController? controller;
 
   @override
   State<MyTextFieldWidget> createState() => _MyTextFieldWidgetState();
@@ -56,6 +58,7 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
               )
             : null,
       ),
+      controller: widget.controller,
     );
   }
 }

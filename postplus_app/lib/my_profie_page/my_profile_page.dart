@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_edit_profile_page/my_edit_profile_page.dart';
 import 'package:postplus_app/my_post_page/my_post_page.dart';
 import 'package:postplus_app/my_update_profile_picture_page/my_update_profile_picture_page.dart';
 import 'package:postplus_app/my_user_model_list_page/my_user_model_list_page.dart';
@@ -128,17 +129,28 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                         builder: (_) =>
                                             MyUpdateProfilePicturePage(
                                                 currentUserModel:
-                                                    widget.currentUserModel),
+                                                    snapshot.data!),
                                       ),
                                     ).then((value) {
-                                      setState(() {
-                                      });
+                                      setState(() {});
                                     });
                                   },
                                   child: const Text("Edit image")),
                               ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text("Edit profile")),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => MyEditProfilePage(
+                                          currentUserModel:
+                                              snapshot.data!),
+                                    ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                },
+                                child: const Text("Edit profile"),
+                              ),
                             ])
                           : FutureBuilder<UserModel>(
                               future: getCurrentUserModel(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:postplus_app/get_current_user_info/get_current_user_info.dart';
 import '../user_model/user_model.dart';
 
 Future<UserModel> postMyLogin(UserModel user) async {
@@ -11,7 +12,10 @@ Future<UserModel> postMyLogin(UserModel user) async {
   final parsedResponse = UserModel.fromJson(response.data);
   final userModel = parsedResponse;
 
-  await FirebaseFirestore.instance.collection("users").doc(userModel.sId).update(
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userModel.sId)
+      .update(
     {
       "id": userModel.sId,
       "email": userModel.email,
@@ -20,5 +24,13 @@ Future<UserModel> postMyLogin(UserModel user) async {
       "token": userModel.token, //this updates the token in firebase
     },
   );
-  return userModel;
+
+  final document = await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userModel.sId)
+      .get();
+
+  UserModel finalUserModel = UserModel.fromJson(document.data()!);
+
+  return finalUserModel;
 }
