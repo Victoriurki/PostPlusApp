@@ -20,7 +20,7 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      flexibleSpace: Container(decoration: BoxDecoration(color: Colors.transparent)),
       leading: IconButton(
           icon: const Icon(Icons.camera_alt, color: Colors.black),
           onPressed: () {
