@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_edit_profile_page/my_edit_profile_page.dart';
 import 'package:postplus_app/my_post_page/my_post_page.dart';
 import 'package:postplus_app/my_update_profile_picture_page/my_update_profile_picture_page.dart';
 import 'package:postplus_app/my_user_model_list_page/my_user_model_list_page.dart';
@@ -112,48 +113,97 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                            "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
-                        widget.selectedUserId == widget.currentUserModel.sId
-                            ? Column(children: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              MyUpdateProfilePicturePage(
-                                                  currentUserModel:
-                                                      widget.currentUserModel),
-                                        ),
-                                      ).then((value) {
-                                        setState(() {
-                                        });
-                                      });
-                                    },
-                                    child: const Text("Edit image")),
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text("Edit profile")),
-                              ])
-                            : FutureBuilder<UserModel>(
-                                future: getCurrentUserModel(
-                                    widget.currentUserModel.sId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    const Text("Something went wrong");
-                                  }
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                          "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
+                      widget.selectedUserId == widget.currentUserModel.sId
+                          ? Column(children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            MyUpdateProfilePicturePage(
+                                                currentUserModel:
+                                                    snapshot.data!),
                                       ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: const Text("Edit image")),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => MyEditProfilePage(
+                                          currentUserModel:
+                                              snapshot.data!),
+                                    ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                },
+                                child: const Text("Edit profile"),
+                              ),
+                            ])
+                          : FutureBuilder<UserModel>(
+                              future: getCurrentUserModel(
+                                  widget.currentUserModel.sId!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  const Text("Something went wrong");
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  );
+                                }
+                                if (!snapshot.hasData) {
+                                  return const Text("error");
+                                }
+                                if (snapshot.hasData &&
+                                    !snapshot.hasError &&
+                                    snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                  if (snapshot.data!.following
+                                      .toString()
+                                      .contains(widget.selectedUserId)) {
+                                    return ElevatedButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection("users")
+                                            .doc(widget.currentUserModel.sId)
+                                            .update(
+                                          {
+                                            "following": FieldValue.arrayRemove(
+                                              [widget.selectedUserId],
+                                            )
+                                          },
+                                        );
+                                        FirebaseFirestore.instance
+                                            .collection("users")
+                                            .doc(widget.selectedUserId)
+                                            .update(
+                                          {
+                                            "followers": FieldValue.arrayRemove(
+                                              [widget.currentUserModel.sId],
+                                            )
+                                          },
+                                        );
+                                        setState(() {});
+                                      },
+                                      child: const Text("Following"),
                                     );
                                   }
                                   if (!snapshot.hasData) {

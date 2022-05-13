@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/post_model/post_model.dart';
 import 'package:postplus_app/user_model/user_model.dart';
-
 import '../get_selected_post_data/get_selected_post_data.dart';
 
 class MyPostPage extends StatefulWidget {
@@ -22,6 +21,7 @@ class MyPostPage extends StatefulWidget {
 }
 
 class _MyPostPageState extends State<MyPostPage> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
