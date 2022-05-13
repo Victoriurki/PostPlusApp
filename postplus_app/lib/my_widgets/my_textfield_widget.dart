@@ -38,6 +38,7 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
     return TextField(
       obscureText: widget.obscureText ? !_passwordVisible : widget.obscureText,
       onChanged: widget.onChanged,
+      
       decoration: InputDecoration(
         errorText: widget.showErrorText ? widget.errorText : null,
         labelText: widget.label,
