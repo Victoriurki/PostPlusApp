@@ -21,51 +21,53 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            MyTextFieldWidget(
-              hint: 'Please type your email',
-              label: 'Email',
-              onChanged: (text) {
-                email = text;
-              },
-              obscureText: false,
-            ),
-            MyTextFieldWidget(
-              hint: 'Please type your password',
-              label: 'Password',
-              obscureText: true,
-              onChanged: (text) {
-                password = text;
-              },
-            ),
-            MyTextButtonWidget(
-                action: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const MyRegisterPage(title: "Register"),
-                    ),
-                  );
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              MyTextFieldWidget(
+                hint: 'Please type your email',
+                label: 'Email',
+                onChanged: (text) {
+                  email = text;
                 },
-                title: "Register"),
-            MyElevatedButtonWidget(
-                action: () async {
-                  final currentUser = await postMyLogin(
-                      UserModel(email: email, password: password));
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          MyHomePage(currentUserModel: currentUser),
-                    ),
-                  );
+                obscureText: false,
+              ),
+              MyTextFieldWidget(
+                hint: 'Please type your password',
+                label: 'Password',
+                obscureText: true,
+                onChanged: (text) {
+                  password = text;
                 },
-                title: 'Sing in'),
-            const LoginButton()
-          ],
+              ),
+              MyTextButtonWidget(
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MyRegisterPage(title: "Register"),
+                      ),
+                    );
+                  },
+                  title: "Register"),
+              MyElevatedButtonWidget(
+                  action: () async {
+                    final currentUser = await postMyLogin(
+                        UserModel(email: email, password: password));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MyHomePage(currentUserModel: currentUser),
+                      ),
+                    );
+                  },
+                  title: 'Sing in'),
+              const LoginButton()
+            ],
+          ),
         ),
       ),
     );

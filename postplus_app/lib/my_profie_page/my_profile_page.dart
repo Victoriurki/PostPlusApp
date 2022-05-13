@@ -26,90 +26,92 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            FutureBuilder<UserModel>(
-              future: getCurrentUserModel(widget.selectedUserId),
-              builder: (context, snapshot) {
-                /// deu ruim
-                if (snapshot.hasError) {
-                  const Text("Something went wrong");
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const Text("error");
-                }
-
-                /// caminho feliz
-                if (snapshot.hasData &&
-                    !snapshot.hasError &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MyUserModelListPage(
-                                      title: "Followers",
-                                      userList: snapshot.data!.followers!,
-                                      currentUserModel:
-                                          widget.currentUserModel),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Text("${snapshot.data!.followers!.length}"),
-                                const Text("followers")
-                              ],
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              FutureBuilder<UserModel>(
+                future: getCurrentUserModel(widget.selectedUserId),
+                builder: (context, snapshot) {
+                  /// deu ruim
+                  if (snapshot.hasError) {
+                    const Text("Something went wrong");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return const Text("error");
+                  }
+    
+                  /// caminho feliz
+                  if (snapshot.hasData &&
+                      !snapshot.hasError &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MyUserModelListPage(
+                                        title: "Followers",
+                                        userList: snapshot.data!.followers!,
+                                        currentUserModel:
+                                            widget.currentUserModel),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Text("${snapshot.data!.followers!.length}"),
+                                  const Text("followers")
+                                ],
+                              ),
                             ),
-                          ),
-                          ClipOval(
-                            child: Image.network(
-                              snapshot.data!.profilePicture!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
+                            ClipOval(
+                              child: Image.network(
+                                snapshot.data!.profilePicture!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MyUserModelListPage(
-                                      title: "Following",
-                                      userList: snapshot.data!.following!,
-                                      currentUserModel:
-                                          widget.currentUserModel),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Text("${snapshot.data!.following!.length}"),
-                                const Text("following")
-                              ],
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MyUserModelListPage(
+                                        title: "Following",
+                                        userList: snapshot.data!.following!,
+                                        currentUserModel:
+                                            widget.currentUserModel),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Text("${snapshot.data!.following!.length}"),
+                                  const Text("following")
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -203,16 +205,25 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                       },
                                       child: const Text("Following"),
                                     );
-                                  } else {
-                                    return ElevatedButton(
+                                  }
+                                  if (!snapshot.hasData) {
+                                    return const Text("error");
+                                  }
+                                  if (snapshot.hasData &&
+                                      !snapshot.hasError &&
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    if (snapshot.data!.following
+                                        .toString()
+                                        .contains(widget.selectedUserId)) {
+                                      return ElevatedButton(
                                         onPressed: () {
                                           FirebaseFirestore.instance
                                               .collection("users")
-                                              .doc(widget.currentUserModel.sId!)
+                                              .doc(widget.currentUserModel.sId)
                                               .update(
                                             {
-                                              "following":
-                                                  FieldValue.arrayUnion(
+                                              "following": FieldValue.arrayRemove(
                                                 [widget.selectedUserId],
                                               )
                                             },
@@ -222,96 +233,125 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                               .doc(widget.selectedUserId)
                                               .update(
                                             {
-                                              "followers":
-                                                  FieldValue.arrayUnion(
+                                              "followers": FieldValue.arrayRemove(
                                                 [widget.currentUserModel.sId],
                                               )
                                             },
                                           );
                                           setState(() {});
                                         },
-                                        child: const Text("Follow"));
+                                        child: const Text("Following"),
+                                      );
+                                    } else {
+                                      return ElevatedButton(
+                                          onPressed: () {
+                                            FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(widget.currentUserModel.sId!)
+                                                .update(
+                                              {
+                                                "following":
+                                                    FieldValue.arrayUnion(
+                                                  [widget.selectedUserId],
+                                                )
+                                              },
+                                            );
+                                            FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(widget.selectedUserId)
+                                                .update(
+                                              {
+                                                "followers":
+                                                    FieldValue.arrayUnion(
+                                                  [widget.currentUserModel.sId],
+                                                )
+                                              },
+                                            );
+                                            setState(() {});
+                                          },
+                                          child: const Text("Follow"));
+                                    }
+                                  } else {
+                                    // sei la quye que deu
+                                    return CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    );
                                   }
-                                } else {
-                                  // sei la quye que deu
-                                  return CircularProgressIndicator(
-                                    color: Theme.of(context).primaryColor,
-                                  );
-                                }
-                              },
-                            ),
-                    ],
-                  );
-                } else {
-                  // sei la o que deu
-                  return CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  );
-                }
-              },
-            ),
-            FutureBuilder<List<PostModel>>(
-              future: getUserPosts(widget.selectedUserId),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  const Text("Something went wrong");
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const Text("Something went wrong");
-                }
-                if (snapshot.data!.isEmpty) {
-                  return const Text("This user didn't post yet D:");
-                }
-                if (snapshot.hasData &&
-                    !snapshot.hasError &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return GridView.builder(
-                      itemCount: snapshot.data!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => MyPostPage(
-                                    currentUserModel: widget.currentUserModel,
-                                    selectedUserId: widget.selectedUserId,
-                                    postId: snapshot.data![index].id!),
+                                },
                               ),
-                            );
-                          },
-                          child: Image.network(
-                            snapshot.data![index].url!,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      });
-                } else {
-                  // sei la o que deu
-                  return CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  );
-                }
-              },
-            )
-          ],
+                      ],
+                    );
+                  } else {
+                    // sei la o que deu
+                    return CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    );
+                  }
+                },
+              ),
+              FutureBuilder<List<PostModel>>(
+                future: getUserPosts(widget.selectedUserId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    const Text("Something went wrong");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return const Text("Something went wrong");
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return const Text("This user didn't post yet D:");
+                  }
+                  if (snapshot.hasData &&
+                      !snapshot.hasError &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return GridView.builder(
+                        itemCount: snapshot.data!.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MyPostPage(
+                                      currentUserModel: widget.currentUserModel,
+                                      selectedUserId: widget.selectedUserId,
+                                      postId: snapshot.data![index].id!),
+                                ),
+                              );
+                            },
+                            child: Image.network(
+                              snapshot.data![index].url!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        });
+                  } else {
+                    // sei la o que deu
+                    return CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    );
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
