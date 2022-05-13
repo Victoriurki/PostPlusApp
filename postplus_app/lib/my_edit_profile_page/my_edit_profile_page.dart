@@ -5,17 +5,17 @@ import 'package:postplus_app/user_model/user_model.dart';
 
 class MyEditProfilePage extends StatefulWidget {
   final UserModel currentUserModel;
-  const MyEditProfilePage({Key? key, required this.currentUserModel}) : super(key: key);
+  const MyEditProfilePage({Key? key, required this.currentUserModel})
+      : super(key: key);
 
   @override
   State<MyEditProfilePage> createState() => _MyEditProfilePageState();
 }
 
 class _MyEditProfilePageState extends State<MyEditProfilePage> {
-  String biography = "";
-  String username = "";
-  String biographyErrorText = "Campo obrigatório";
-  String usernameErrorText = "Campo obrigatório";
+  String? biography;
+  String? username;
+  String usernameErrorText = "Required field";
   bool biographyError = false;
   bool usernameError = false;
 
@@ -26,41 +26,80 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
         body: Column(
           children: [
             MyTextFieldWidget(
-                obscureText: false,
-                label: "Biography",
-                hint: "Tell they more about you...",
-                onChanged: (text) {
-                  biography = text;
-                  biographyError = false;
-                }),
+              obscureText: false,
+              label: "@username*",
+              hint: "type a username here",
+              onChanged: (text) {
+                username = text;
+                usernameError = false;
+              },
+              controller:
+                  TextEditingController(text: widget.currentUserModel.username),
+              errorText: usernameErrorText,
+              showErrorText: usernameError,
+            ),
             MyTextFieldWidget(
-                obscureText: false,
-                label: "@username",
-                hint: "type a username here",
-                onChanged: (text) {
-                  username = text;
-                  usernameError = false;
-                }),
+              obscureText: false,
+              label: "Biography",
+              hint: "Tell they more about you...",
+              onChanged: (text) {
+                biography = text;
+                biographyError = false;
+              },
+              controller: TextEditingController(
+                  text: widget.currentUserModel.biography),
+            ),
             TextButton(
               onPressed: () {},
               child: const Text("Change password"),
             ),
             ElevatedButton(
-              child: const Text("Update"),
-              onPressed: () {
-                if (username.isEmpty || username == "") {
-                  usernameError = true;
-                  setState(() {});
-                }
-                if (biography.isEmpty || biography == "") {
-                  biographyError = true;
-                  setState(() {});
-                }
-                if (usernameError == false && biographyError == false) {
-                  // FirebaseFirestore.instance.doc("users").collection(widget.currentUserModel.sId!).
-                }
-              },
-            )
+                child: const Text("Update"),
+                onPressed: () {
+                  if (username == null && biography == null) {
+                    Navigator.pop(context);
+                  }
+                  if (username == "" && biography == "") {
+                    usernameError = true;
+                    setState(() {});
+                  }
+                  if (username == "" && biography != null && biography != "") {
+                    usernameError = true;
+                    setState(() {});
+                  }
+                  if (username != null && username != "" && biography == "") {
+                    FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(widget.currentUserModel.sId!)
+                        .update({
+                      "biography": biography,
+                      "username": username,
+                    });
+                    Navigator.pop(context);
+                  }
+                  if (username == "" && biography == null) {
+                    usernameError = true;
+                    setState(() {});
+                  }
+                  if (username != null && username != "" && biography == null) {
+                    FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(widget.currentUserModel.sId!)
+                        .update({
+                      "username": username,
+                    });
+                    Navigator.pop(context);
+                  }
+                  if (username == null && biography != null) {
+                    FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(widget.currentUserModel.sId!)
+                        .update({
+                      "biography": biography,
+                    });
+                    Navigator.pop(context);
+                  }
+                })
           ],
         ),
       ),
