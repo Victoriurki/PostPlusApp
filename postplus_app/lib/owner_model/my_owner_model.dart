@@ -17,7 +17,7 @@ class OwnerModel {
     return OwnerModel(
       firstName: map["first_name"] ?? "",
       lastName: map["last_name"] ?? "",
-      id: map["id"] ?? "",
+      id: map["_id"] ?? "",
       username: map["username"] ?? "",
       profilePicture: map["profile_picture"] ?? "",
     );

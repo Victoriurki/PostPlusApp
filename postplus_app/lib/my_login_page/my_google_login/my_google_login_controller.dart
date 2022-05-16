@@ -38,7 +38,7 @@ class GoogleSignInController {
             .collection("users")
             .doc(authenticatedUser.user!.uid)
             .set({
-          "id": authenticatedUser.user!.uid,
+          "_id": authenticatedUser.user!.uid,
           "email": authenticatedUser.user!.email,
           "firstname": authenticatedUser.user!.displayName!.split(' ')[0],
           "lastname": authenticatedUser.user!.displayName!.split(' ')[1],

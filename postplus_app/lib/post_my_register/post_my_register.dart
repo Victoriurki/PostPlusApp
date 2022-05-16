@@ -13,7 +13,7 @@ Future<UserModel> postMyRegister(UserModel user) async {
 
   FirebaseFirestore.instance.collection("users").doc(userModel.sId).set(
     {
-      "id": userModel.sId,
+      "_id": userModel.sId,
       "email": userModel.email,
       "first_name": userModel.firstName,
       "last_name": userModel.lastName,

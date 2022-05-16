@@ -19,7 +19,7 @@ class PostModel {
     return PostModel(
       url: map["url"] ?? "",
       description: map["description"] ?? "",
-      id: map["id"] ?? "",
+      id: map["_id"] ?? "",
       ownerData: OwnerModel.fromJson(map['owner_data']),
       likes: map["likes"] ?? [],
     );

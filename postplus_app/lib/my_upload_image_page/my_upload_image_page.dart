@@ -120,12 +120,12 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                         .set(
                       {
                         "url": imageUrl,
-                        "id": datetime,
+                        "_id": datetime,
                         "description": description,
                         "likes": [],
                         "owner_data": {
                           "first_name": widget.currentUserModel.firstName,
-                          "id": widget.currentUserModel.sId,
+                          "_id": widget.currentUserModel.sId,
                           "last_name": widget.currentUserModel.lastName,
                           "profile_picture": widget.currentUserModel.profilePicture,
                           "username": widget.currentUserModel.username,

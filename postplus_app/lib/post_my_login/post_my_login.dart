@@ -17,7 +17,7 @@ Future<UserModel> postMyLogin(UserModel user) async {
       .doc(userModel.sId)
       .update(
     {
-      "id": userModel.sId,
+      "_id": userModel.sId,
       "email": userModel.email,
       "first_name": userModel.firstName,
       "last_name": userModel.lastName,
