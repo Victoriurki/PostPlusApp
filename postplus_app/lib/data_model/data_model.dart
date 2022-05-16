@@ -13,11 +13,10 @@ class DataModel {
     return querySnapshot.docs.map((snapshot) {
       final Map<String, dynamic> dataMap =
           snapshot.data() as Map<String, dynamic>;
-
       return DataModel(
           firstName: dataMap['first_name'],
           lastName: dataMap['last_name'],
-          id: dataMap['id'],
+          id: dataMap['_id'],
           profilePicture: dataMap['profile_picture'],
           username: dataMap['username'],
           );

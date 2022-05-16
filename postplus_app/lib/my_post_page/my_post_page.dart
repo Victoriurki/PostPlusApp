@@ -25,10 +25,6 @@ class _MyPostPageState extends State<MyPostPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
-      minimum: const EdgeInsets.fromLTRB(8, 16, 8, 0),
       child: Scaffold(
         body: Center(
           child: FutureBuilder<PostModel>(
@@ -45,8 +41,8 @@ class _MyPostPageState extends State<MyPostPage> {
                           image: NetworkImage(snapshot.data!.url!),
                         ),
                       ),
-                      width: 300,
-                      height: 300,
+                      width: MediaQuery.of(context).size.width*0.9,
+                      height: MediaQuery.of(context).size.width*0.50625,
                     ),
                     const SizedBox(height: 8),
                     Text(snapshot.data!.description!),
@@ -57,7 +53,7 @@ class _MyPostPageState extends State<MyPostPage> {
                         onPressed: () async {
                           await FirebaseFirestore.instance
                               .collection("users")
-                              .doc(snapshot.data!.ownerData!.id!)
+                              .doc(widget.selectedUserId)
                               .collection("postdata")
                               .doc(snapshot.data!.id)
                               .update({
@@ -74,7 +70,7 @@ class _MyPostPageState extends State<MyPostPage> {
                         onPressed: () async {
                           await FirebaseFirestore.instance
                               .collection("users")
-                              .doc(snapshot.data!.ownerData!.id!)
+                              .doc(widget.selectedUserId)
                               .collection("postdata")
                               .doc(snapshot.data!.id)
                               .update({

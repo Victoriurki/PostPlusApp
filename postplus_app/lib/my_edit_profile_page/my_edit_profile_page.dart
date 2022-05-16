@@ -15,8 +15,8 @@ class MyEditProfilePage extends StatefulWidget {
 
 class _MyEditProfilePageState extends State<MyEditProfilePage> {
   String usernameErrorText = "Required field";
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _biographyController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _biographyController = TextEditingController();
 
   @override
   void initState() {

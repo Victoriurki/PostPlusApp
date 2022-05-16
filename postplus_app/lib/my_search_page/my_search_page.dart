@@ -7,7 +7,8 @@ import '../data_model/data_model.dart';
 class MySearchPage extends StatefulWidget {
   final UserModel currentUserModel;
 
-  const MySearchPage({Key? key, required this.currentUserModel}) : super(key: key);
+  const MySearchPage({Key? key, required this.currentUserModel})
+      : super(key: key);
 
   @override
   State<MySearchPage> createState() => _MySearchPageState();
@@ -18,10 +19,6 @@ class _MySearchPageState extends State<MySearchPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
-      minimum: const EdgeInsets.fromLTRB(8, 16, 8, 0),
       child: FirestoreSearchScaffold(
         firestoreCollectionName: 'users',
         searchBy: 'username',
