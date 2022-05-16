@@ -4,7 +4,7 @@ class MyElevatedButtonWidget extends StatelessWidget {
   const MyElevatedButtonWidget(
       {Key? key, required this.action, required this.title})
       : super(key: key);
-  final Function() action;
+  final Function()? action;
   final String title;
 
   @override

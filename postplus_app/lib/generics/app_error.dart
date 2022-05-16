@@ -1,0 +1,3 @@
+enum AppError {
+  backend, unknown
+}
