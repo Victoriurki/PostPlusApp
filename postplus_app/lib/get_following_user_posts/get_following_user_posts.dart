@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../post_model/post_model.dart';
 
-Future<List<PostModel>> getFollowingUserPosts(List<dynamic> followingList) async {
+Future<List<PostModel>> getFollowingUserPosts(
+    List<dynamic> followingList, ) async {
   List<PostModel> followingFullPostList = [];
-  for (int i = 0; i <= followingList.length; i++) {
+  for (int i = 0; i < followingList.length; i++) {
     final QuerySnapshot<Map<String, dynamic>> postCollection =
         await FirebaseFirestore.instance
             .collection("users")
@@ -20,5 +21,8 @@ Future<List<PostModel>> getFollowingUserPosts(List<dynamic> followingList) async
   if (followingFullPostList.isEmpty) {
     return [];
   }
+
+  followingFullPostList.sort(((a, b) => b.id!.compareTo(a.id!)));
+  print(followingFullPostList);
   return followingFullPostList;
 }
