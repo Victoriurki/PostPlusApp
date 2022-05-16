@@ -41,7 +41,8 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                                   onTap: () async {
                                     try {
                                       final image = await ImagePicker()
-                                          .pickImage(source: ImageSource.camera);
+                                          .pickImage(
+                                              source: ImageSource.camera);
                                       if (image == null) return;
                                       final imageTemporary = File(image.path);
                                       setState(() {
@@ -59,7 +60,8 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                                   onTap: () async {
                                     try {
                                       final image = await ImagePicker()
-                                          .pickImage(source: ImageSource.gallery);
+                                          .pickImage(
+                                              source: ImageSource.gallery);
                                       if (image == null) return;
                                       final imageTemporary = File(image.path);
                                       setState(() {
@@ -123,13 +125,7 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                         "_id": datetime,
                         "description": description,
                         "likes": [],
-                        "owner_data": {
-                          "first_name": widget.currentUserModel.firstName,
-                          "_id": widget.currentUserModel.sId,
-                          "last_name": widget.currentUserModel.lastName,
-                          "profile_picture": widget.currentUserModel.profilePicture,
-                          "username": widget.currentUserModel.username,
-                        }
+                        "owner_id": widget.currentUserModel.sId
                       },
                     );
                     Navigator.pop(context);

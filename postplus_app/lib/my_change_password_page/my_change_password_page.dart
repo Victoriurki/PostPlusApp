@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../my_widgets/my_textfield_widget.dart';
@@ -16,8 +15,8 @@ class MyChangePasswordPage extends StatefulWidget {
 class _MyChangePasswordPageState extends State<MyChangePasswordPage> {
   String newPasswordErrorText = "Required field";
   String confirmPasswordErrorText = "Passwords do not match";
-  TextEditingController _newPasswordController = TextEditingController(text: "");
-  TextEditingController _confirmPasswordController = TextEditingController(text: "");
+  final TextEditingController _newPasswordController = TextEditingController(text: "");
+  final TextEditingController _confirmPasswordController = TextEditingController(text: "");
 
 
 

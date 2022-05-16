@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:postplus_app/get_current_user_info/get_current_user_info.dart';
 import '../user_model/user_model.dart';
 
 Future<UserModel> postMyLogin(UserModel user) async {
