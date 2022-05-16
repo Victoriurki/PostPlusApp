@@ -45,6 +45,8 @@ dependencies:
   image_picker: ^0.8.5
   get: ^4.6.1
   firestore_search: ^0.1.9
+  cached_network_image: ^3.2.0
+  cached_memory_image: ^1.2.1
 
 dev_dependencies:
   flutter_test:
