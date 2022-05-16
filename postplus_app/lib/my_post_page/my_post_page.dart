@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/post_model/post_model.dart';
@@ -38,7 +39,7 @@ class _MyPostPageState extends State<MyPostPage> {
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(snapshot.data!.url!),
+                          image: CachedNetworkImageProvider(snapshot.data!.url!),
                         ),
                       ),
                       width: MediaQuery.of(context).size.width*0.9,
