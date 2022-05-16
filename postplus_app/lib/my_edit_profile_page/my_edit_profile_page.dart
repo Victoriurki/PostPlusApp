@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_change_password_page/my_change_password_page.dart';
+import 'package:postplus_app/my_widgets/my_elevated_button_widget.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 
@@ -65,20 +66,22 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
               },
               child: const Text("Change password"),
             ),
-            ElevatedButton(
-              child: const Text("Update"),
-              onPressed: _userNameController.text.isNotEmpty
-                  ? () {
-                      FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(widget.currentUserModel.sId!)
-                          .update({
-                        "biography": _biographyController.text,
-                        "username": _userNameController.text,
-                      });
-                      Navigator.pop(context);
-                    }
-                  : null,
+            MyElevatedButtonWidget(
+              title: "Update",
+              action: () {
+                _userNameController.text.isNotEmpty
+                    ? () {
+                        FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(widget.currentUserModel.sId!)
+                            .update({
+                          "biography": _biographyController.text,
+                          "username": _userNameController.text,
+                        });
+                        Navigator.pop(context);
+                      }
+                    : null;
+              },
             )
           ],
         ),

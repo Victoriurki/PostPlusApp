@@ -16,8 +16,9 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
-  String email = '';
-  String password = '';
+  String loginErrorText = "Required field";
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +37,25 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 const Text("Wellcome"),
                 const Text("Sign in with email"),
                 MyTextFieldWidget(
+                  controller: _emailController,
+                  errorText: loginErrorText,
+                  showErrorText: _emailController.text.isEmpty,
                   hint: 'Please type your email',
                   label: 'Email',
                   onChanged: (text) {
-                    email = text;
+                    setState(() {});
                   },
                   obscureText: false,
                 ),
                 MyTextFieldWidget(
+                  controller: _passwordController,
+                  errorText: loginErrorText,
+                  showErrorText: _passwordController.text.isEmpty,
                   hint: 'Please type your password',
                   label: 'Password',
                   obscureText: true,
                   onChanged: (text) {
-                    password = text;
+                    setState(() {});
                   },
                 ),
                 MyTextButtonWidget(
@@ -56,29 +63,42 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const MyRegisterPage(title: "Register"),
+                          builder: (_) =>
+                              const MyRegisterPage(title: "Register"),
                         ),
                       );
                     },
                     title: "First time here? Register"),
                 MyElevatedButtonWidget(
-                    action: () async {
-                      final currentUser = await postMyLogin(
-                          UserModel(email: email, password: password));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage(currentUserModel: currentUser),
-                        ),
-                      );
-                    },
+                    action: (_emailController.text.isNotEmpty &&
+                            _passwordController.text.isNotEmpty)
+                        ? () async {
+                            final currentUser = await postMyLogin(UserModel(
+                                email: _emailController.text,
+                                password: _passwordController.text));
+                            if (currentUser.hasError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Invalid email or password"),
+                                ),
+                              );
+                            } else {
+                              await Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyHomePage(
+                                      currentUserModel: currentUser.data!),
+                                ),
+                              );
+                            }
+                          }
+                        : null,
                     title: 'Sign in'),
                 const Text("or"),
                 Container(
                   color: Colors.black,
                   height: 2,
-                  width: MediaQuery.of(context).size.width*0.7,
+                  width: MediaQuery.of(context).size.width * 0.7,
                 ),
                 const Text("Sign in with Google"),
                 const LoginButton(),

@@ -161,7 +161,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                         lastNameError == false &&
                         usernameError == false) {
                       try {
-                        postMyRegister(
+                        final currentUser = await postMyRegister(
                           UserModel(
                             firstName: firstName,
                             lastName: lastName,
@@ -170,12 +170,21 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                             username: username,
                           ),
                         );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyLoginPage(),
-                          ),
-                        );
+                        if (currentUser.hasError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "Email has already been used"),
+                            ),
+                          );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyLoginPage(),
+                            ),
+                          );
+                        }
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           passError = true;
