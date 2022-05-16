@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_change_password_page/my_change_password_page.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 
@@ -53,7 +54,15 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
                 onChanged: (text) {},
                 controller: _biographyController),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => MyChangePasswordPage(
+                        currentUserModel: widget.currentUserModel),
+                  ),
+                );
+              },
               child: const Text("Change password"),
             ),
             ElevatedButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:postplus_app/get_user_post_data/get_user_post_data.dart';
+import 'package:postplus_app/get_following_user_posts/get_following_user_posts.dart';
 import 'package:postplus_app/my_themes/my_color_theme.dart';
 import 'package:postplus_app/post_model/post_model.dart';
 import '../my_app_bar/my_app_bar.dart';
@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           child: FutureBuilder<List<PostModel>>(
-            future: getUserPosts(widget.currentUserModel.sId!),
+            future: getFollowingUserPosts(widget.currentUserModel.followers!),
             builder: (context, snapshot) {
               return RefreshIndicator(
                 onRefresh: () async {
