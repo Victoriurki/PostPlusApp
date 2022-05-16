@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class MyTextFieldWidget extends StatefulWidget {
@@ -35,31 +37,43 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      obscureText: widget.obscureText ? !_passwordVisible : widget.obscureText,
-      onChanged: widget.onChanged,
-      
-      decoration: InputDecoration(
-        errorText: widget.showErrorText ? widget.errorText : null,
-        labelText: widget.label,
-        hintText: widget.hint,
-        suffixIcon: widget.obscureText
-            ? IconButton(
-                icon: Icon(
-                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).primaryColorDark,
-                ),
-                onPressed: () {
-                  setState(
-                    () {
-                      _passwordVisible = !_passwordVisible;
+    return Column(
+      children: [
+        TextField(
+          obscureText: widget.obscureText ? !_passwordVisible : widget.obscureText,
+          onChanged: widget.onChanged,
+          style: const TextStyle(),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            errorText: widget.showErrorText ? widget.errorText : null,
+            labelText: widget.label,
+            hintText: widget.hint,
+            suffixIcon: widget.obscureText
+                ? IconButton(
+                    icon: Icon(
+                      _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          _passwordVisible = !_passwordVisible;
+                        },
+                      );
                     },
-                  );
-                },
-              )
-            : null,
-      ),
-      controller: widget.controller,
+                  )
+                : null,
+          ),
+          controller: widget.controller,
+        ),
+        const SizedBox(
+          height: 4,
+        )
+      ],
     );
   }
 }

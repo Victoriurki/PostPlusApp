@@ -24,49 +24,66 @@ class _MyLoginPageState extends State<MyLoginPage> {
     return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Column(
-            children: [
-              MyTextFieldWidget(
-                hint: 'Please type your email',
-                label: 'Email',
-                onChanged: (text) {
-                  email = text;
-                },
-                obscureText: false,
-              ),
-              MyTextFieldWidget(
-                hint: 'Please type your password',
-                label: 'Password',
-                obscureText: true,
-                onChanged: (text) {
-                  password = text;
-                },
-              ),
-              MyTextButtonWidget(
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const MyRegisterPage(title: "Register"),
-                      ),
-                    );
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  "images/logo.png",
+                  width: 200,
+                  height: 200,
+                ),
+                const Text("Wellcome"),
+                const Text("Sign in with email"),
+                MyTextFieldWidget(
+                  hint: 'Please type your email',
+                  label: 'Email',
+                  onChanged: (text) {
+                    email = text;
                   },
-                  title: "Register"),
-              MyElevatedButtonWidget(
-                  action: () async {
-                    final currentUser = await postMyLogin(
-                        UserModel(email: email, password: password));
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MyHomePage(currentUserModel: currentUser),
-                      ),
-                    );
+                  obscureText: false,
+                ),
+                MyTextFieldWidget(
+                  hint: 'Please type your password',
+                  label: 'Password',
+                  obscureText: true,
+                  onChanged: (text) {
+                    password = text;
                   },
-                  title: 'Sing in'),
-              const LoginButton()
-            ],
+                ),
+                MyTextButtonWidget(
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MyRegisterPage(title: "Register"),
+                        ),
+                      );
+                    },
+                    title: "First time here? Register"),
+                MyElevatedButtonWidget(
+                    action: () async {
+                      final currentUser = await postMyLogin(
+                          UserModel(email: email, password: password));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MyHomePage(currentUserModel: currentUser),
+                        ),
+                      );
+                    },
+                    title: 'Sign in'),
+                const Text("or"),
+                Container(
+                  color: Colors.black,
+                  height: 2,
+                  width: MediaQuery.of(context).size.width*0.7,
+                ),
+                const Text("Sign in with Google"),
+                const LoginButton(),
+              ],
+            ),
           ),
         ),
       ),

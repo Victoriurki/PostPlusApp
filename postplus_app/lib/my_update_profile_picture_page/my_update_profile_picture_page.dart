@@ -39,7 +39,8 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                                   onTap: () async {
                                     try {
                                       final image = await ImagePicker()
-                                          .pickImage(source: ImageSource.camera);
+                                          .pickImage(
+                                              source: ImageSource.camera);
                                       if (image == null) return;
                                       final imageTemporary = File(image.path);
                                       setState(() {
@@ -57,7 +58,8 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                                   onTap: () async {
                                     try {
                                       final image = await ImagePicker()
-                                          .pickImage(source: ImageSource.gallery);
+                                          .pickImage(
+                                              source: ImageSource.gallery);
                                       if (image == null) return;
                                       final imageTemporary = File(image.path);
                                       setState(() {
@@ -81,7 +83,12 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                       height: 320,
                       fit: BoxFit.cover,
                     )
-                  : const FlutterLogo(size: 320),
+                  : Image.network(
+                  widget.currentUserModel.profilePicture!,
+                  width: 320,
+                  height: 320,
+                  fit: BoxFit.cover,
+                    ),
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {

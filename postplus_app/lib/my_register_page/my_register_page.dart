@@ -47,6 +47,12 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
         child: Center(
           child: Column(
             children: [
+              Image.asset(
+                "images/logo.png",
+                width: 200,
+                height: 200,
+              ),
+              const Text("to sign up, please inform an email and a password"),
               MyTextFieldWidget(
                 hint: 'Please type your email',
                 label: 'Email',
@@ -152,7 +158,8 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                         passError == false &&
                         confirmPasswordError == false &&
                         firstNameError == false &&
-                        lastNameError == false && usernameError == false) {
+                        lastNameError == false &&
+                        usernameError == false) {
                       try {
                         postMyRegister(
                           UserModel(
