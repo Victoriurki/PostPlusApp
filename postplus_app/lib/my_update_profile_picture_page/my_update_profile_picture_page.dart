@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import '../my_themes/my_app_theme.dart';
 import '../user_model/user_model.dart';
 
 class MyUpdateProfilePicturePage extends StatefulWidget {
@@ -25,8 +26,59 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
       child: Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                "Update Profile Picture",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontSize: 30),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              image != null
+                  ? Image.file(
+                      image!,
+                      width: 320,
+                      height: 320,
+                      fit: BoxFit.cover,
+                    )
+                  : CachedNetworkImage(
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      imageUrl: widget.currentUserModel.profilePicture!,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 320,
+                        width: 320,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2, 2),
+                              blurRadius: 2,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                    ),
+              const SizedBox(
+                height: 16,
+              ),
               ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: MyAppTheme.greyColor,
+                    primary: MyAppTheme.softBlueColor,
+                  ),
                   onPressed: () {
                     showModalBottomSheet(
                         context: context,
@@ -75,73 +127,57 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                           );
                         });
                   },
-                  icon: const Icon(Icons.add),
+                  icon: Icon(
+                    Icons.add,
+                    color: MyAppTheme.greyColor,
+                  ),
                   label: const Text("Update")),
-              image != null
-                  ? Image.file(
-                      image!,
-                      width: 320,
-                      height: 320,
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      imageUrl: widget.currentUserModel.profilePicture!,
-                      imageBuilder: (context, imageProvider) => Container(
-                        height: 320,
-                        width: 320,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(2, 2),
-                              blurRadius: 2,
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  setState(() {
-                    image = null;
-                  });
-                },
+              const SizedBox(
+                height: 16,
               ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () async {
-                  if (image == null) return;
-                  try {
-                    String ref =
-                        "images/${widget.currentUserModel.sId}/profilepicture/profilepicture.jpg";
-                    await FirebaseStorage.instance.ref(ref).putFile(image!);
-                    final imageUrl = await FirebaseStorage.instance
-                        .ref()
-                        .child(ref)
-                        .getDownloadURL();
-                    await FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(widget.currentUserModel.sId)
-                        .update(
-                      {"profile_picture": imageUrl},
-                    );
-                    Navigator.pop(context);
-                  } on FirebaseException catch (e) {
-                    throw Exception("Erro: $e");
-                  }
-                },
-              )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: MyAppTheme.greyColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        image = null;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: MyAppTheme.greyColor,
+                    ),
+                    onPressed: () async {
+                      if (image == null) return;
+                      try {
+                        String ref =
+                            "images/${widget.currentUserModel.sId}/profilepicture/profilepicture.jpg";
+                        await FirebaseStorage.instance.ref(ref).putFile(image!);
+                        final imageUrl = await FirebaseStorage.instance
+                            .ref()
+                            .child(ref)
+                            .getDownloadURL();
+                        await FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(widget.currentUserModel.sId)
+                            .update(
+                          {"profile_picture": imageUrl},
+                        );
+                        Navigator.pop(context);
+                      } on FirebaseException catch (e) {
+                        throw Exception("Erro: $e");
+                      }
+                    },
+                  )
+                ],
+              ),
             ],
           ),
         ),
