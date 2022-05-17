@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_user_model_list_page/my_user_model_list_page.dart';
 import 'package:postplus_app/post_model/post_model.dart';
 import 'package:postplus_app/user_model/user_model.dart';
 import '../get_selected_post_data/get_selected_post_data.dart';
@@ -71,38 +72,81 @@ class _MyPostPageState extends State<MyPostPage> {
                         if (!snapshot.data!.likes!
                             .toString()
                             .contains(widget.currentUserModel.sId!)) ...[
-                          IconButton(
-                            onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(widget.selectedUserId)
-                                  .collection("postdata")
-                                  .doc(snapshot.data!.id)
-                                  .update({
-                                "likes": FieldValue.arrayUnion(
-                                  [widget.currentUserModel.sId],
-                                )
-                              });
-                              setState(() {});
-                            },
-                            icon: const Icon(Icons.favorite_outline_outlined),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(widget.selectedUserId)
+                                      .collection("postdata")
+                                      .doc(snapshot.data!.id)
+                                      .update({
+                                    "likes": FieldValue.arrayUnion(
+                                      [widget.currentUserModel.sId],
+                                    )
+                                  });
+                                  setState(() {});
+                                },
+                                icon:
+                                    const Icon(Icons.favorite_outline_outlined),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyUserModelListPage(
+                                          title: "Likes",
+                                          userList: snapshot.data!.likes!,
+                                          currentUserModel:
+                                              widget.currentUserModel),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                    "${snapshot.data!.likes!.length.toString()} likes"),
+                              ),
+                            ],
                           )
                         ] else ...[
-                          IconButton(
-                            onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(widget.selectedUserId)
-                                  .collection("postdata")
-                                  .doc(snapshot.data!.id)
-                                  .update({
-                                "likes": FieldValue.arrayRemove(
-                                  [widget.currentUserModel.sId],
-                                )
-                              });
-                              setState(() {});
-                            },
-                            icon: const Icon(Icons.favorite),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(widget.selectedUserId)
+                                      .collection("postdata")
+                                      .doc(snapshot.data!.id)
+                                      .update({
+                                    "likes": FieldValue.arrayRemove(
+                                      [widget.currentUserModel.sId],
+                                    )
+                                  });
+                                  setState(() {});
+                                },
+                                icon: const Icon(Icons.favorite),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyUserModelListPage(
+                                          title: "Likes",
+                                          userList: snapshot.data!.likes!,
+                                          currentUserModel:
+                                              widget.currentUserModel),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                    "${snapshot.data!.likes!.length.toString()} likes"),
+                              ),
+                            ],
                           )
                         ]
                       ],
