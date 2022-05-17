@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/services.dart';
 import 'package:postplus_app/my_login_page/my_login_page.dart';
 import 'package:postplus_app/post_my_register/post_my_register.dart';
 import 'package:postplus_app/user_model/user_model.dart';
@@ -46,6 +47,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
                 "images/logo.png",
@@ -54,6 +56,9 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
               ),
               const Text("to sign up, please inform an email and a password"),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(" ")),
+                ],
                 hint: 'Please type your email',
                 label: 'Email',
                 onChanged: (text) {
@@ -65,6 +70,10 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 obscureText: false,
               ),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(" ")),
+                ],
+                maxLength: 20,
                 hint: 'Please type your password',
                 label: 'Password',
                 obscureText: true,
@@ -76,6 +85,10 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 showErrorText: passError,
               ),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(" ")),
+                ],
+                maxLength: 20,
                 hint: 'Please confirmn your password',
                 label: 'Confirm Password',
                 obscureText: true,
@@ -87,6 +100,10 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 showErrorText: confirmPasswordError,
               ),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
+                maxLength: 15,
                 hint: 'Please type your first name',
                 label: 'First Name',
                 obscureText: false,
@@ -98,6 +115,10 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 showErrorText: firstNameError,
               ),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
+                maxLength: 15,
                 hint: 'Please type your last name',
                 label: 'Last Name',
                 obscureText: false,
@@ -109,6 +130,10 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 showErrorText: lastNameError,
               ),
               MyTextFieldWidget(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[a-z0-9]")),
+                ],
+                maxLength: 20,
                 hint: 'Please type your @username',
                 label: '@username',
                 obscureText: false,
@@ -173,8 +198,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                         if (currentUser.hasError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text(
-                                  "Email has already been used"),
+                              content: Text("Email has already been used"),
                             ),
                           );
                         } else {
