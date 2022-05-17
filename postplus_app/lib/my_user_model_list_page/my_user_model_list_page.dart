@@ -23,22 +23,50 @@ class MyUserModelListPage extends StatelessWidget {
         body: FutureBuilder<List<UserModel>>(
           future: getUserModelList(userList),
           builder: (context, snapshot) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(title),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return MyUserCard(
-                      currentUserModel: currentUserModel,
-                      selectedUserModel: snapshot.data![index],
-                    );
-                  },
-                ),
-              ],
-            );
+            {
+              //erro
+              if (snapshot.hasError) {
+                const Text("Something went wrong");
+              }
+              //loading
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                );
+              }
+              //não tem data
+              if (!snapshot.hasData) {
+                return const Text("No data");
+              }
+              //caminho feliz
+              if (snapshot.hasData &&
+                  !snapshot.hasError &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(title),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return MyUserCard(
+                          currentUserModel: currentUserModel,
+                          selectedUserModel: snapshot.data![index],
+                        );
+                      },
+                    ),
+                  ],
+                );
+              } else {
+                // sei la que deu
+                return CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                );
+              }
+            }
           },
         ),
       ),
