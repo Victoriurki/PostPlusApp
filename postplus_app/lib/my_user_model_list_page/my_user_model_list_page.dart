@@ -20,8 +20,10 @@ class MyUserModelListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
@@ -31,56 +33,69 @@ class MyUserModelListPage extends StatelessWidget {
               ],
             ),
           ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: FutureBuilder<List<UserModel>>(
-            future: getUserModelList(userList),
-            builder: (context, snapshot) {
-              {
-                //erro
-                if (snapshot.hasError) {
-                  const Text("Something went wrong");
-                }
-                //loading
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  );
-                }
-                //não tem data
-                if (!snapshot.hasData) {
-                  return const Text("No data");
-                }
-                //caminho feliz
-                if (snapshot.hasData &&
-                    !snapshot.hasError &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(title),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return MyUserCard(
-                            currentUserModel: currentUserModel,
-                            selectedUserModel: snapshot.data![index],
-                          );
-                        },
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: FutureBuilder<List<UserModel>>(
+              future: getUserModelList(userList),
+              builder: (context, snapshot) {
+                {
+                  //erro
+                  if (snapshot.hasError) {
+                    const Text("Something went wrong");
+                  }
+                  //loading
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
                       ),
-                    ],
-                  );
-                } else {
-                  // sei la que deu
-                  return CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  );
+                    );
+                  }
+                  //não tem data
+                  if (!snapshot.hasData) {
+                    return const Text("No data");
+                  }
+                  //caminho feliz
+                  if (snapshot.hasData &&
+                      !snapshot.hasError &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontSize: 34),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return MyUserCard(
+                              currentUserModel: currentUserModel,
+                              selectedUserModel: snapshot.data![index],
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    // sei la que deu
+                    return CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    );
+                  }
                 }
-              }
-            },
+              },
+            ),
           ),
         ),
       ),

@@ -29,7 +29,7 @@ class MyUserCard extends StatelessWidget {
       },
       title: Text(
           "${(selectedUserModel.firstName)} ${(selectedUserModel.lastName)}"),
-      subtitle: Text('${selectedUserModel.username}'),
+      subtitle: Text('@${selectedUserModel.username}'),
       leading: CachedNetworkImage(
         imageUrl: selectedUserModel.profilePicture!,
         progressIndicatorBuilder: (context, url, downloadProgress) =>
