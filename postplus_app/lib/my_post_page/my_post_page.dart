@@ -29,149 +29,182 @@ class _MyPostPageState extends State<MyPostPage> {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: [
-                MyAppTheme.backgroundGradientColorA,
-                MyAppTheme.backgroundGradientColorB,
-              ],
-            ),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [
+              MyAppTheme.backgroundGradientColorA,
+              MyAppTheme.backgroundGradientColorB,
+            ],
           ),
+        ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Center(
-            child: FutureBuilder<PostModel>(
-                future: getCurrentPostModel(widget.postId, widget.selectedUserId),
-                builder: (context, snapshot) {
-                  {
-                    //erro
-                    if (snapshot.hasError) {
-                      const Text("Something went wrong");
-                    }
-                    //loading
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }
-                    //não tem data
-                    if (!snapshot.hasData) {
-                      return const Text("No data");
-                    }
-                    //caminho feliz
-                    if (snapshot.hasData &&
-                        !snapshot.hasError &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                    snapshot.data!.url!),
-                              ),
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.width * 0.50625,
+          body: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Center(
+              child: FutureBuilder<PostModel>(
+                  future:
+                      getCurrentPostModel(widget.postId, widget.selectedUserId),
+                  builder: (context, snapshot) {
+                    {
+                      //erro
+                      if (snapshot.hasError) {
+                        const Text("Something went wrong");
+                      }
+                      //loading
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          const SizedBox(height: 8),
-                          Text(snapshot.data!.description!),
-                          if (!snapshot.data!.likes!
-                              .toString()
-                              .contains(widget.currentUserModel.sId!)) ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () async {
-                                    await FirebaseFirestore.instance
-                                        .collection("users")
-                                        .doc(widget.selectedUserId)
-                                        .collection("postdata")
-                                        .doc(snapshot.data!.id)
-                                        .update({
-                                      "likes": FieldValue.arrayUnion(
-                                        [widget.currentUserModel.sId],
-                                      )
-                                    });
-                                    setState(() {});
-                                  },
-                                  icon:
-                                      const Icon(Icons.favorite_outline_outlined),
+                        );
+                      }
+                      //não tem data
+                      if (!snapshot.hasData) {
+                        return const Text("No data");
+                      }
+                      //caminho feliz
+                      if (snapshot.hasData &&
+                          !snapshot.hasError &&
+                          snapshot.connectionState == ConnectionState.done) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Post",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                      snapshot.data!.url!),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MyUserModelListPage(
-                                            title: "Likes",
-                                            userList: snapshot.data!.likes!,
-                                            currentUserModel:
-                                                widget.currentUserModel),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                      "${snapshot.data!.likes!.length.toString()} likes"),
+                              ),
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: MediaQuery.of(context).size.width * 0.9,
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  snapshot.data!.description!,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ],
-                            )
-                          ] else ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () async {
-                                    await FirebaseFirestore.instance
-                                        .collection("users")
-                                        .doc(widget.selectedUserId)
-                                        .collection("postdata")
-                                        .doc(snapshot.data!.id)
-                                        .update({
-                                      "likes": FieldValue.arrayRemove(
-                                        [widget.currentUserModel.sId],
-                                      )
-                                    });
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(Icons.favorite),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MyUserModelListPage(
-                                            title: "Likes",
-                                            userList: snapshot.data!.likes!,
-                                            currentUserModel:
-                                                widget.currentUserModel),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                      "${snapshot.data!.likes!.length.toString()} likes"),
-                                ),
-                              ],
-                            )
-                          ]
-                        ],
-                      );
-                    } else {
-                      // sei la que deu
-                      return CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor,
-                      );
+                            ),
+                            if (!snapshot.data!.likes!
+                                .toString()
+                                .contains(widget.currentUserModel.sId!)) ...[
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection("users")
+                                          .doc(widget.selectedUserId)
+                                          .collection("postdata")
+                                          .doc(snapshot.data!.id)
+                                          .update({
+                                        "likes": FieldValue.arrayUnion(
+                                          [widget.currentUserModel.sId],
+                                        )
+                                      });
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(
+                                        Icons.favorite_outline_outlined),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyUserModelListPage(
+                                                  title: "Likes",
+                                                  userList:
+                                                      snapshot.data!.likes!,
+                                                  currentUserModel:
+                                                      widget.currentUserModel),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                        "${snapshot.data!.likes!.length.toString()} likes"),
+                                  ),
+                                ],
+                              )
+                            ] else ...[
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection("users")
+                                          .doc(widget.selectedUserId)
+                                          .collection("postdata")
+                                          .doc(snapshot.data!.id)
+                                          .update({
+                                        "likes": FieldValue.arrayRemove(
+                                          [widget.currentUserModel.sId],
+                                        )
+                                      });
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(Icons.favorite),
+                                    color: Colors.red,
+                                  ),
+                                  InkWell(
+                                    child: Text(
+                                      "${snapshot.data!.likes!.length.toString()} likes",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyUserModelListPage(
+                                                  title: "Likes",
+                                                  userList:
+                                                      snapshot.data!.likes!,
+                                                  currentUserModel:
+                                                      widget.currentUserModel),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                ],
+                              )
+                            ]
+                          ],
+                        );
+                      } else {
+                        // sei la que deu
+                        return CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        );
+                      }
                     }
-                  }
-                }),
+                  }),
+            ),
           ),
         ),
       ),
