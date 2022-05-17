@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -83,11 +84,31 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                       height: 320,
                       fit: BoxFit.cover,
                     )
-                  : Image.network(
-                  widget.currentUserModel.profilePicture!,
-                  width: 320,
-                  height: 320,
-                  fit: BoxFit.cover,
+                  : CachedNetworkImage(
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      imageUrl: widget.currentUserModel.profilePicture!,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 320,
+                        width: 320,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2, 2),
+                              blurRadius: 2,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
                     ),
               IconButton(
                 icon: const Icon(Icons.delete),
