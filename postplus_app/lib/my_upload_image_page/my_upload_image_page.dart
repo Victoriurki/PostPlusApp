@@ -86,7 +86,7 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                         height: 320,
                         fit: BoxFit.cover,
                       )
-                    : const FlutterLogo(size: 320),
+                    : Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {

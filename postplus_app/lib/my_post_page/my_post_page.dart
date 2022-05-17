@@ -22,7 +22,6 @@ class MyPostPage extends StatefulWidget {
 }
 
 class _MyPostPageState extends State<MyPostPage> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,61 +30,90 @@ class _MyPostPageState extends State<MyPostPage> {
           child: FutureBuilder<PostModel>(
               future: getCurrentPostModel(widget.postId, widget.selectedUserId),
               builder: (context, snapshot) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: CachedNetworkImageProvider(snapshot.data!.url!),
-                        ),
+                {
+                  //erro
+                  if (snapshot.hasError) {
+                    const Text("Something went wrong");
+                  }
+                  //loading
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
                       ),
-                      width: MediaQuery.of(context).size.width*0.9,
-                      height: MediaQuery.of(context).size.width*0.50625,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(snapshot.data!.description!),
-                    if (!snapshot.data!.likes!
-                        .toString()
-                        .contains(widget.currentUserModel.sId!)) ...[
-                      IconButton(
-                        onPressed: () async {
-                          await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(widget.selectedUserId)
-                              .collection("postdata")
-                              .doc(snapshot.data!.id)
-                              .update({
-                            "likes": FieldValue.arrayUnion(
-                              [widget.currentUserModel.sId],
-                            )
-                          });
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.favorite_outline_outlined),
-                      )
-                    ] else ...[
-                      IconButton(
-                        onPressed: () async {
-                          await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(widget.selectedUserId)
-                              .collection("postdata")
-                              .doc(snapshot.data!.id)
-                              .update({
-                            "likes": FieldValue.arrayRemove(
-                              [widget.currentUserModel.sId],
-                            )
-                          });
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.favorite),
-                      )
-                    ]
-                  ],
-                );
+                    );
+                  }
+                  //não tem data
+                  if (!snapshot.hasData) {
+                    return const Text("No data");
+                  }
+                  //caminho feliz
+                  if (snapshot.hasData &&
+                      !snapshot.hasError &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(
+                                  snapshot.data!.url!),
+                            ),
+                          ),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.width * 0.50625,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(snapshot.data!.description!),
+                        if (!snapshot.data!.likes!
+                            .toString()
+                            .contains(widget.currentUserModel.sId!)) ...[
+                          IconButton(
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(widget.selectedUserId)
+                                  .collection("postdata")
+                                  .doc(snapshot.data!.id)
+                                  .update({
+                                "likes": FieldValue.arrayUnion(
+                                  [widget.currentUserModel.sId],
+                                )
+                              });
+                              setState(() {});
+                            },
+                            icon: const Icon(Icons.favorite_outline_outlined),
+                          )
+                        ] else ...[
+                          IconButton(
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(widget.selectedUserId)
+                                  .collection("postdata")
+                                  .doc(snapshot.data!.id)
+                                  .update({
+                                "likes": FieldValue.arrayRemove(
+                                  [widget.currentUserModel.sId],
+                                )
+                              });
+                              setState(() {});
+                            },
+                            icon: const Icon(Icons.favorite),
+                          )
+                        ]
+                      ],
+                    );
+                  } else {
+                    // sei la que deu
+                    return CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    );
+                  }
+                }
               }),
         ),
       ),
