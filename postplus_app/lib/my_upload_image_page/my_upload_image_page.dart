@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
 
 import '../user_model/user_model.dart';
@@ -25,60 +27,19 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton.icon(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                    leading: const Icon(Icons.photo_camera),
-                                    title: const Text("Tirar foto"),
-                                    onTap: () async {
-                                      try {
-                                        final image = await ImagePicker()
-                                            .pickImage(
-                                                source: ImageSource.camera);
-                                        if (image == null) return;
-                                        final imageTemporary = File(image.path);
-                                        setState(() {
-                                          this.image = imageTemporary;
-                                        });
-                                      } on PlatformException catch (e) {
-                                        print("Failed to pick image: $e");
-                                      }
-                                      Navigator.pop(context);
-                                    }),
-                                ListTile(
-                                    leading: const Icon(Icons.photo_library),
-                                    title: const Text(
-                                        "Escolha uma foto da biblioteca"),
-                                    onTap: () async {
-                                      try {
-                                        final image = await ImagePicker()
-                                            .pickImage(
-                                                source: ImageSource.gallery);
-                                        if (image == null) return;
-                                        final imageTemporary = File(image.path);
-                                        setState(() {
-                                          this.image = imageTemporary;
-                                        });
-                                      } on PlatformException catch (e) {
-                                        print("Failed to pick image: $e");
-                                      }
-                                      Navigator.pop(context);
-                                    }),
-                              ],
-                            );
-                          });
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text("Photo")),
+                const SizedBox(
+                  height: 32,
+                ),
+                Text(
+                  "Add Photo",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 image != null
                     ? Image.file(
                         image!,
@@ -86,14 +47,102 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                         height: 320,
                         fit: BoxFit.cover,
                       )
-                    : Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    setState(() {
-                      image = null;
-                    });
-                  },
+                    : CachedNetworkImage(
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        imageUrl:
+                            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png",
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: 320,
+                          width: 320,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: MyAppTheme.greyColor,
+                        primary: MyAppTheme.softBlueColor,
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                      leading: const Icon(Icons.photo_camera),
+                                      title: const Text("Tirar foto"),
+                                      onTap: () async {
+                                        try {
+                                          final image = await ImagePicker()
+                                              .pickImage(
+                                                  source: ImageSource.camera);
+                                          if (image == null) return;
+                                          final imageTemporary =
+                                              File(image.path);
+                                          setState(() {
+                                            this.image = imageTemporary;
+                                          });
+                                        } on PlatformException catch (e) {
+                                          print("Failed to pick image: $e");
+                                        }
+                                        Navigator.pop(context);
+                                      }),
+                                  ListTile(
+                                      leading: const Icon(Icons.photo_library),
+                                      title: const Text(
+                                          "Escolha uma foto da biblioteca"),
+                                      onTap: () async {
+                                        try {
+                                          final image = await ImagePicker()
+                                              .pickImage(
+                                                  source: ImageSource.gallery);
+                                          if (image == null) return;
+                                          final imageTemporary =
+                                              File(image.path);
+                                          setState(() {
+                                            this.image = imageTemporary;
+                                          });
+                                        } on PlatformException catch (e) {
+                                          print("Failed to pick image: $e");
+                                        }
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                              );
+                            });
+                      },
+                      icon: const Icon(Icons.add),
+                      label: Text(
+                        "Add",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          image = null;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 32,
                 ),
                 MyTextFieldWidget(
                     maxLength: 300,
@@ -103,8 +152,11 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                     onChanged: (text) {
                       description = text;
                     }),
-                IconButton(
-                  icon: const Icon(Icons.add),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: MyAppTheme.greyColor,
+                    primary: MyAppTheme.softBlueColor,
+                  ),
                   onPressed: () async {
                     if (image == null) return;
                     try {
@@ -135,6 +187,11 @@ class _MyUploadImagePageState extends State<MyUploadImagePage> {
                       throw Exception("Erro: $e");
                     }
                   },
+                  icon: const Icon(Icons.check),
+                  label: Text(
+                    "Post Photo",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 )
               ],
             ),

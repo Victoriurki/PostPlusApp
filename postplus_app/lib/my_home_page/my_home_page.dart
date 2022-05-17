@@ -4,7 +4,7 @@ import 'package:postplus_app/get_current_user_info/get_current_user_info.dart';
 import 'package:postplus_app/get_following_user_posts/get_following_user_posts.dart';
 import 'package:postplus_app/my_post_page/my_post_page.dart';
 import 'package:postplus_app/my_profie_page/my_profile_page.dart';
-import 'package:postplus_app/my_themes/my_color_theme.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 import 'package:postplus_app/post_model/post_model.dart';
 import '../my_app_bar/my_app_bar.dart';
 import '../user_model/user_model.dart';
@@ -35,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                MyColorTheme.backgroundGradientColorA,
-                MyColorTheme.backgroundGradientColorB,
+                MyAppTheme.backgroundGradientColorA,
+                MyAppTheme.backgroundGradientColorB,
               ],
             ),
           ),
@@ -123,9 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               begin: Alignment.bottomLeft,
                                               end: Alignment.topRight,
                                               colors: [
-                                                MyColorTheme
+                                                MyAppTheme
                                                     .backgroundGradientColorA,
-                                                MyColorTheme
+                                                MyAppTheme
                                                     .backgroundGradientColorB,
                                               ],
                                             ),
@@ -291,9 +291,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           end: Alignment
                                                               .topRight,
                                                           colors: [
-                                                            MyColorTheme
+                                                            MyAppTheme
                                                                 .backgroundGradientColorA,
-                                                            MyColorTheme
+                                                            MyAppTheme
                                                                 .backgroundGradientColorB,
                                                           ],
                                                         ),

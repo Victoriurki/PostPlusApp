@@ -11,18 +11,8 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 40, right: 40),
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.black,
-            minimumSize: const Size(double.infinity, 50),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)))),
-        icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
-        label: const Text(
-          'Sign Up with Google',
-        ),
-        onPressed: () async {
+      child: InkWell(
+        onTap: () async {
           final result = await GoogleSignInController().googleLogin();
           if (result == "") {
             showDialog(
@@ -43,6 +33,19 @@ class LoginButton extends StatelessWidget {
             );
           }
         },
+        child: ClipOval(
+          child: Container(
+              width: 60,
+              height: 60,
+              color: const Color(0xFF4285F4),
+              child: const Center(
+                child: FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              )),
+        ),
       ),
     );
   }

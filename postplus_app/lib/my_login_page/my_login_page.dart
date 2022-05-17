@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_google_login/my_google_login.dart';
 import 'package:postplus_app/my_register_page/my_register_page.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 import 'package:postplus_app/my_widgets/my_elevated_button_widget.dart';
 import 'package:postplus_app/my_widgets/my_text_button_widget.dart';
 import 'package:postplus_app/my_widgets/my_textfield_widget.dart';
@@ -25,9 +26,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
@@ -35,8 +38,20 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   width: 200,
                   height: 200,
                 ),
-                const Text("Wellcome"),
-                const Text("Sign in with email"),
+                Text(
+                  "Wellcome",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  "Sign in with email",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 MyTextFieldWidget(
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(" ")),
@@ -77,6 +92,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       );
                     },
                     title: "First time here? Register"),
+                const SizedBox(
+                  height: 8,
+                ),
                 MyElevatedButtonWidget(
                     action: (_emailController.text.isNotEmpty &&
                             _passwordController.text.isNotEmpty)
@@ -102,13 +120,31 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           }
                         : null,
                     title: 'Sign in'),
-                const Text("or"),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  "or",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Container(
-                  color: Colors.black,
+                  color: MyAppTheme.greyColor,
                   height: 2,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),
-                const Text("Sign in with Google"),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Sign in with Google",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
                 const LoginButton(),
               ],
             ),
