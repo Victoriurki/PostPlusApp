@@ -28,25 +28,25 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: MyAppBar(
           currentUserModel: widget.currentUserModel,
         ),
-        body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  MyColorTheme.backgroundGradientColorA,
-                  MyColorTheme.backgroundGradientColorB,
-                ],
+        body: RefreshIndicator(
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                    MyColorTheme.backgroundGradientColorA,
+                    MyColorTheme.backgroundGradientColorB,
+                  ],
+                ),
               ),
-            ),
-            child: FutureBuilder<UserModel>(
-                future: getCurrentUserModel(widget.currentUserModel.sId!),
-                builder: (context, currentUserSnapshot) {
-                  return RefreshIndicator(
-                    onRefresh: () async {
-                      setState(() {});
-                    },
-                    child: FutureBuilder<List<PostModel>>(
+              child: FutureBuilder<UserModel>(
+                  future: getCurrentUserModel(widget.currentUserModel.sId!),
+                  builder: (context, currentUserSnapshot) {
+                    return FutureBuilder<List<PostModel>>(
                       future: getFollowingUserPosts(
                           currentUserSnapshot.data!.following!,
                           widget.currentUserModel.sId!),
@@ -121,16 +121,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) => MyPostPage(
-                                                      currentUserModel: widget
-                                                          .currentUserModel,
-                                                      selectedUserId: snapshot
-                                                          .data![index]
-                                                          .ownerId!,
-                                                      postId: snapshot
-                                                          .data![index].id!),),);
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => MyPostPage(
+                                                  currentUserModel:
+                                                      widget.currentUserModel,
+                                                  selectedUserId: snapshot
+                                                      .data![index].ownerId!,
+                                                  postId: snapshot
+                                                      .data![index].id!),
+                                            ),
+                                          );
                                         },
                                         child: Container(
                                           height: 216,
@@ -173,9 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                         );
                       },
-                    ),
-                  );
-                })),
+                    );
+                  })),
+        ),
       ),
     );
   }

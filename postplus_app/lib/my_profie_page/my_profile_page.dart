@@ -119,6 +119,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       ),
                       Text(
                           "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
+                      Text("@${snapshot.data!.username}"),
                       widget.selectedUserId == widget.currentUserModel.sId
                           ? Column(children: [
                               TextButton(

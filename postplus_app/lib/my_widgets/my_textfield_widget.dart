@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MyTextFieldWidget extends StatefulWidget {
-  const MyTextFieldWidget(
+   MyTextFieldWidget(
       {Key? key,
       required this.obscureText,
       required this.label,
@@ -9,9 +10,13 @@ class MyTextFieldWidget extends StatefulWidget {
       required this.onChanged,
       this.errorText = "",
       this.showErrorText = false,
-      this.controller})
+      this.controller,
+      this.inputFormatters,
+      this.maxLength,
+      })
       : super(key: key);
 
+  int? maxLength;
   final String label;
   final String hint;
   final String errorText;
@@ -19,6 +24,7 @@ class MyTextFieldWidget extends StatefulWidget {
   final bool showErrorText;
   final Function(String)? onChanged;
   final TextEditingController? controller;
+  List<TextInputFormatter>? inputFormatters;
 
   @override
   State<MyTextFieldWidget> createState() => _MyTextFieldWidgetState();
@@ -37,11 +43,14 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextField( 
+          maxLength: widget.maxLength,
+          inputFormatters: widget.inputFormatters,
           obscureText: widget.obscureText ? !_passwordVisible : widget.obscureText,
           onChanged: widget.onChanged,
           style: const TextStyle(),
           decoration: InputDecoration(
+            counter: const Offstage(),
             filled: true,
             fillColor: Colors.white,
             border: const OutlineInputBorder(

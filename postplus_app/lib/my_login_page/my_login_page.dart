@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:postplus_app/my_home_page/my_home_page.dart';
 import 'package:postplus_app/my_login_page/my_google_login/my_google_login.dart';
 import 'package:postplus_app/my_register_page/my_register_page.dart';
@@ -37,6 +38,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 const Text("Wellcome"),
                 const Text("Sign in with email"),
                 MyTextFieldWidget(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(" ")),
+                  ],
                   controller: _emailController,
                   errorText: loginErrorText,
                   showErrorText: _emailController.text.isEmpty,
@@ -48,6 +52,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   obscureText: false,
                 ),
                 MyTextFieldWidget(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(" ")),
+                  ],
+                  maxLength: 20,
                   controller: _passwordController,
                   errorText: loginErrorText,
                   showErrorText: _passwordController.text.isEmpty,
