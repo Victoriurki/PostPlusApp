@@ -32,7 +32,9 @@ class _MyAppBarState extends State<MyAppBar> {
                   currentUserModel: widget.currentUserModel,
                 ),
               ),
-            );
+            ).then((value) {
+              setState(() {});
+            });
           }),
       actions: [
         IconButton(
@@ -48,7 +50,9 @@ class _MyAppBarState extends State<MyAppBar> {
                   currentUserModel: widget.currentUserModel,
                 ),
               ),
-            );
+            ).then((value) {
+              setState(() {});
+            });
           },
         ),
         IconButton(
