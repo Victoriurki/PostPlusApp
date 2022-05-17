@@ -23,14 +23,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        primary: true,
-        extendBodyBehindAppBar: true,
-        appBar: MyAppBar(
-          currentUserModel: widget.currentUserModel,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
+      child: Container(
+        decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
@@ -40,7 +34,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          child: FutureBuilder<UserModel>(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          primary: true,
+          extendBodyBehindAppBar: true,
+          appBar: MyAppBar(
+            currentUserModel: widget.currentUserModel,
+          ),
+          body: FutureBuilder<UserModel>(
               future: getCurrentUserModel(widget.currentUserModel.sId!),
               builder: (context, currentUserSnapshot) {
                 {

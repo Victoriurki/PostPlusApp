@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:postplus_app/update_password/update_password.dart';
+import '../my_themes/my_app_theme.dart';
 import '../my_widgets/my_textfield_widget.dart';
 import '../user_model/user_model.dart';
 
@@ -23,51 +24,63 @@ class _MyChangePasswordPageState extends State<MyChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MyTextFieldWidget(
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(" ")),
+    return Container(
+      decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  MyAppTheme.backgroundGradientColorA,
+                  MyAppTheme.backgroundGradientColorB,
                 ],
-                maxLength: 20,
-                obscureText: true,
-                label: "New password",
-                hint: "type your new password here",
-                onChanged: (text) {},
-                controller: _newPasswordController,
-                errorText: newPasswordErrorText,
-                showErrorText: _newPasswordController.text.isEmpty,
               ),
-              MyTextFieldWidget(
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(" ")),
-                ],
-                maxLength: 20,
-                obscureText: true,
-                label: "Confirm password",
-                hint: "Confirm your new password here",
-                onChanged: (text) {
-                  setState(() {});
-                },
-                controller: _confirmPasswordController,
-                errorText: confirmPasswordErrorText,
-                showErrorText:
-                    _confirmPasswordController == _newPasswordController,
-              ),
-              ElevatedButton(
-                child: const Text("Update password"),
-                onPressed: _newPasswordController.text == _confirmPasswordController.text
-                    ? () async {
-                      await updatePassword(widget.currentUserModel, _newPasswordController.text);
-                      Navigator.pop(context);
-                      }
-                    : null,
-              )
-            ],
+            ),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MyTextFieldWidget(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(" ")),
+                  ],
+                  maxLength: 20,
+                  obscureText: true,
+                  label: "New password",
+                  hint: "type your new password here",
+                  onChanged: (text) {},
+                  controller: _newPasswordController,
+                  errorText: newPasswordErrorText,
+                  showErrorText: _newPasswordController.text.isEmpty,
+                ),
+                MyTextFieldWidget(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(" ")),
+                  ],
+                  maxLength: 20,
+                  obscureText: true,
+                  label: "Confirm password",
+                  hint: "Confirm your new password here",
+                  onChanged: (text) {
+                    setState(() {});
+                  },
+                  controller: _confirmPasswordController,
+                  errorText: confirmPasswordErrorText,
+                  showErrorText:
+                      _confirmPasswordController == _newPasswordController,
+                ),
+                ElevatedButton(
+                  child: const Text("Update password"),
+                  onPressed: _newPasswordController.text == _confirmPasswordController.text
+                      ? () async {
+                        await updatePassword(widget.currentUserModel, _newPasswordController.text);
+                        Navigator.pop(context);
+                        }
+                      : null,
+                )
+              ],
+            ),
           ),
         ),
       ),
