@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_search_page/my_search_page.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 import '../my_profie_page/my_profile_page.dart';
 import '../my_upload_image_page/my_upload_image_page.dart';
 import '../user_model/user_model.dart';
@@ -23,7 +24,7 @@ class _MyAppBarState extends State<MyAppBar> {
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
       leading: IconButton(
-          icon: const Icon(Icons.camera_alt, color: Colors.black),
+          icon: Icon(Icons.camera_alt, color: MyAppTheme.greyColor),
           onPressed: () {
             Navigator.push(
               context,
@@ -37,28 +38,30 @@ class _MyAppBarState extends State<MyAppBar> {
             });
           }),
       actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.search_outlined,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => MySearchPage(
-                  currentUserModel: widget.currentUserModel,
+        ClipOval(
+          child: IconButton(
+            icon: Icon(
+              Icons.search_outlined,
+              color: MyAppTheme.greyColor,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MySearchPage(
+                    currentUserModel: widget.currentUserModel,
+                  ),
                 ),
-              ),
-            ).then((value) {
-              setState(() {});
-            });
-          },
+              ).then((value) {
+                setState(() {});
+              });
+            },
+          ),
         ),
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.person,
-            color: Colors.black,
+            color: MyAppTheme.greyColor,
           ),
           onPressed: () {
             Navigator.push(

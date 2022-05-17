@@ -22,6 +22,7 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
   File? image;
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -156,6 +157,7 @@ class _MyUploadImagePageState extends State<MyUpdateProfilePicturePage> {
                 )
               ],
             ),
+   
           ),
         ),
       ),

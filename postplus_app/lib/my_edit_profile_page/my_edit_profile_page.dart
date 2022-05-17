@@ -37,64 +37,85 @@ class _MyEditProfilePageState extends State<MyEditProfilePage> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MyTextFieldWidget(
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp("[a-z0-9]")),
-                ],
-                maxLength: 20,
-                obscureText: false,
-                label: "@username*",
-                hint: "type a username here",
-                onChanged: (text) {
-                  setState(() {});
-                },
-                controller: _userNameController,
-                errorText: usernameErrorText,
-                showErrorText: _userNameController.text.isEmpty,
-              ),
-              MyTextFieldWidget(
-                  maxLength: 300,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  "Edit Profile",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontSize: 30),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                MyTextFieldWidget(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[a-z0-9]")),
+                  ],
+                  maxLength: 20,
                   obscureText: false,
-                  label: "Biography",
-                  hint: "Tell they more about you...",
-                  onChanged: (text) {},
-                  controller: _biographyController),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MyChangePasswordPage(
-                          currentUserModel: widget.currentUserModel),
-                    ),
-                  );
-                },
-                child: const Text("Change password"),
-              ),
-              MyElevatedButtonWidget(
-                title: "Update",
-                action: () {
-                  if (_userNameController.text.isNotEmpty) {
-                    try {
-                      FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(widget.currentUserModel.sId!)
-                          .update({
-                        "biography": _biographyController.text,
-                        "username": _userNameController.text,
-                      });
-                      Navigator.pop(context);
-                    } catch (e) {
-                      return null;
+                  label: "@username*",
+                  hint: "type a username here",
+                  onChanged: (text) {
+                    setState(() {});
+                  },
+                  controller: _userNameController,
+                  errorText: usernameErrorText,
+                  showErrorText: _userNameController.text.isEmpty,
+                ),
+                MyTextFieldWidget(
+                    maxLength: 300,
+                    obscureText: false,
+                    label: "Biography",
+                    hint: "Tell they more about you...",
+                    onChanged: (text) {},
+                    controller: _biographyController),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MyChangePasswordPage(
+                            currentUserModel: widget.currentUserModel),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Change password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(decoration: TextDecoration.underline),
+                  ),
+                ),
+                MyElevatedButtonWidget(
+                  title: "Update",
+                  action: () {
+                    if (_userNameController.text.isNotEmpty) {
+                      try {
+                        FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(widget.currentUserModel.sId!)
+                            .update({
+                          "biography": _biographyController.text,
+                          "username": _userNameController.text,
+                        });
+                        Navigator.pop(context);
+                      } catch (e) {
+                        return null;
+                      }
                     }
-                  }
-        
-                },
-              )
-            ],
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

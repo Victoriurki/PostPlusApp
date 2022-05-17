@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:postplus_app/update_password/update_password.dart';
+
 import '../my_themes/my_app_theme.dart';
+
+import '../my_widgets/my_elevated_button_widget.dart';
+
 import '../my_widgets/my_textfield_widget.dart';
 import '../user_model/user_model.dart';
 
@@ -17,13 +21,13 @@ class MyChangePasswordPage extends StatefulWidget {
 class _MyChangePasswordPageState extends State<MyChangePasswordPage> {
   String newPasswordErrorText = "Required field";
   String confirmPasswordErrorText = "Passwords do not match";
-  final TextEditingController _newPasswordController =
-      TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -41,6 +45,17 @@ class _MyChangePasswordPageState extends State<MyChangePasswordPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  "Change Password",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontSize: 30),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+
                 MyTextFieldWidget(
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(" ")),
@@ -70,12 +85,16 @@ class _MyChangePasswordPageState extends State<MyChangePasswordPage> {
                   showErrorText:
                       _confirmPasswordController == _newPasswordController,
                 ),
-                ElevatedButton(
-                  child: const Text("Update password"),
-                  onPressed: _newPasswordController.text == _confirmPasswordController.text
+
+                MyElevatedButtonWidget(
+                  title: "Update password",
+                  action: _newPasswordController.text ==
+                          _confirmPasswordController.text
                       ? () async {
-                        await updatePassword(widget.currentUserModel, _newPasswordController.text);
-                        Navigator.pop(context);
+                          await updatePassword(widget.currentUserModel,
+                              _newPasswordController.text);
+                          Navigator.pop(context);
+
                         }
                       : null,
                 )

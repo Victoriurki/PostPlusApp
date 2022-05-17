@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_edit_profile_page/my_edit_profile_page.dart';
 import 'package:postplus_app/my_post_page/my_post_page.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 import 'package:postplus_app/my_update_profile_picture_page/my_update_profile_picture_page.dart';
 import 'package:postplus_app/my_user_model_list_page/my_user_model_list_page.dart';
 import 'package:postplus_app/user_model/user_model.dart';
@@ -28,6 +29,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
        decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -42,6 +44,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
+
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -93,8 +99,22 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               },
                               child: Column(
                                 children: [
-                                  Text("${snapshot.data!.followers!.length}"),
-                                  const Text("followers")
+
+
+                                  Text(
+                                    "${snapshot.data!.followers!.length}",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  Text(
+                                    "followers",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            color: MyAppTheme.softGreyColor),
+                                  )
+
                                 ],
                               ),
                             ),
@@ -127,8 +147,21 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               },
                               child: Column(
                                 children: [
-                                  Text("${snapshot.data!.following!.length}"),
-                                  const Text("following")
+
+                                  Text(
+                                    "${snapshot.data!.following!.length}",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  Text(
+                                    "following",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            color: MyAppTheme.softGreyColor),
+                                  )
+
                                 ],
                               ),
                             ),
@@ -138,26 +171,21 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           height: 16,
                         ),
                         Text(
-                            "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}"),
-                        Text("@${snapshot.data!.username}"),
+
+                          "${snapshot.data!.firstName!} ${snapshot.data!.lastName!}",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          "@${snapshot.data!.username}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: MyAppTheme.softGreyColor),
+                        ),
                         widget.selectedUserId == widget.currentUserModel.sId
                             ? Column(children: [
                                 TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              MyUpdateProfilePicturePage(
-                                                  currentUserModel:
-                                                      snapshot.data!),
-                                        ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
-                                    },
-                                    child: const Text("Edit image")),
-                                ElevatedButton(
+
                                   onPressed: () {
                                     Navigator.push(
                                       context,
@@ -169,6 +197,34 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                       setState(() {});
                                     });
                                   },
+
+                                  child: Text(
+                                    "Edit image",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    onPrimary: MyAppTheme.greyColor,
+                                    primary: MyAppTheme.softBlueColor,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => MyEditProfilePage(
+                                            currentUserModel: snapshot.data!),
+                                      ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+
                                   child: const Text("Edit profile"),
                                 ),
                               ])
@@ -204,7 +260,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                               .doc(widget.currentUserModel.sId)
                                               .update(
                                             {
-                                              "following": FieldValue.arrayRemove(
+
+                                              "following":
+                                                  FieldValue.arrayRemove(
+
                                                 [widget.selectedUserId],
                                               )
                                             },
@@ -214,7 +273,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                               .doc(widget.selectedUserId)
                                               .update(
                                             {
-                                              "followers": FieldValue.arrayRemove(
+
+                                              "followers":
+                                                  FieldValue.arrayRemove(
+
                                                 [widget.currentUserModel.sId],
                                               )
                                             },
@@ -228,7 +290,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           onPressed: () {
                                             FirebaseFirestore.instance
                                                 .collection("users")
-                                                .doc(widget.currentUserModel.sId!)
+
+                                                .doc(widget
+                                                    .currentUserModel.sId!)
+
                                                 .update(
                                               {
                                                 "following":
