@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:postplus_app/my_app.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 
 class MyElevatedButtonWidget extends StatelessWidget {
   const MyElevatedButtonWidget(
@@ -13,10 +15,9 @@ class MyElevatedButtonWidget extends StatelessWidget {
       onPressed: action,
       child: Text(title),
       style: ElevatedButton.styleFrom(
-          primary: Colors.pink,
-          textStyle: const TextStyle(
-            color: Colors.white,
-          )),
+          textStyle: Theme.of(context).textTheme.titleMedium,
+          primary: MyAppTheme.softBlueColor,
+          onPrimary: MyAppTheme.greyColor),
     );
   }
 }

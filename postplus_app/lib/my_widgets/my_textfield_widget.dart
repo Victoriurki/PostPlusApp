@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:postplus_app/my_themes/my_app_theme.dart';
 
 class MyTextFieldWidget extends StatefulWidget {
    MyTextFieldWidget(
@@ -48,8 +49,9 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
           inputFormatters: widget.inputFormatters,
           obscureText: widget.obscureText ? !_passwordVisible : widget.obscureText,
           onChanged: widget.onChanged,
-          style: const TextStyle(),
+          style: Theme.of(context).textTheme.titleSmall,
           decoration: InputDecoration(
+            focusColor: MyAppTheme.softBlueColor,
             counter: const Offstage(),
             filled: true,
             fillColor: Colors.white,
@@ -63,7 +65,7 @@ class _MyTextFieldWidgetState extends State<MyTextFieldWidget> {
                 ? IconButton(
                     icon: Icon(
                       _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: Theme.of(context).primaryColorDark,
+                      color: MyAppTheme.softBlueColor,
                     ),
                     onPressed: () {
                       setState(
