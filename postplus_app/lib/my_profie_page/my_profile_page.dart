@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:postplus_app/my_edit_profile_page/my_edit_profile_page.dart';
@@ -85,11 +86,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
                             ),
                           ),
                           ClipOval(
-                            child: Image.network(
-                              snapshot.data!.profilePicture!,
+                            child: CachedNetworkImage(
+                              imageUrl: snapshot.data!.profilePicture!,
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           ),
                           InkWell(
@@ -143,12 +150,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => MyEditProfilePage(
-                                          currentUserModel:
-                                              snapshot.data!),
+                                          currentUserModel: snapshot.data!),
                                     ),
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
                                 },
                                 child: const Text("Edit profile"),
                               ),
@@ -296,11 +302,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               ),
                             );
                           },
-                          child: Image.network(
-                            snapshot.data![index].url!,
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data![index].url!,
                             width: 100,
                             height: 100,
                             fit: BoxFit.cover,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         );
                       });
